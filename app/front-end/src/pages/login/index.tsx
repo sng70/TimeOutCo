@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 import Axios from "axios";
-export const TOKEN_KEY = "jwt";
-
+import { useSignIn } from "react-auth-kit";
 function LogIn() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const signIn = useSignIn();
+
   const handleLogin = () => {
     Axios.post("http://localhost:3001/login", {
       mail: mail,
       password: password,
     }).then((response) => {
-      console.log(response);
+      if (response.status === 200) {
+        if (
+          signIn({
+            token: response.data.token,
+            expiresIn: response.data.expiresIn,
+            tokenType: "Bearer",
+            authState: response.data.authUserState,
+            refreshToken: response.data.refreshToken, // Only if you are using refreshToken feature
+            refreshTokenExpireIn: response.data.refreshTokenExpireIn, // Only if you are using refreshToken feature
+          })
+        ) {
+        } else {
+        }
+      }
     });
-    localStorage.setItem(TOKEN_KEY, "TestLogin");
   };
 
-  document.addEventListener("sendButton", handleLogin);
   return (
     <div className="App">
       <img
@@ -59,7 +71,7 @@ function LogIn() {
             }}
           />
         </div>
-        <button className="sendButton" type="submit">
+        <button className="sendButton" type="submit" onClick={handleLogin}>
           Submit
         </button>
       </form>

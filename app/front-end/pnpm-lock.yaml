@@ -55,6 +55,9 @@ dependencies:
   react:
     specifier: ^18.2.0
     version: 18.2.0
+  react-auth-kit:
+    specifier: ^2.12.2
+    version: 2.12.2(js-cookie@3.0.5)(jwt-decode@3.1.2)(react-dom@18.2.0)(react-router-dom@6.11.1)(react@18.2.0)
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
@@ -7071,6 +7074,10 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /jwt-decode@3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
+
   /kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
@@ -8822,6 +8829,23 @@ packages:
       regenerator-runtime: 0.13.11
       whatwg-fetch: 3.6.2
     dev: true
+
+  /react-auth-kit@2.12.2(js-cookie@3.0.5)(jwt-decode@3.1.2)(react-dom@18.2.0)(react-router-dom@6.11.1)(react@18.2.0):
+    resolution: {integrity: sha512-mRSHo1iMN80XzEKyZi74VDwOWtPEKK0PEgJEyHtpRFEGK63mtvYLrHKHr9T8PIjismla6/fUGat4sre7hQa0cw==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      js-cookie: ^3.0.1
+      jwt-decode: ^3.1.2
+      react: '>=16.8.0 || ^17.x || ^18.x'
+      react-dom: '>=16.8.0 || ^17.x || ^18.x'
+      react-router-dom: ^6.2.0
+    dependencies:
+      js-cookie: 3.0.5
+      jwt-decode: 3.1.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router-dom: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+    dev: false
 
   /react-dev-utils@12.0.1(eslint@8.41.0)(typescript@4.9.5)(webpack@5.83.1):
     resolution: {integrity: sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==}

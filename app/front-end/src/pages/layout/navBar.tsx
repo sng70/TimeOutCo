@@ -1,11 +1,7 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import "./NavLayout.css";
-import { TOKEN_KEY } from "../login";
 function NavLayout() {
-  function handleLogOut() {
-    localStorage.removeItem(TOKEN_KEY);
-  }
   return (
     <>
       <nav className={`navbar`}>
@@ -31,13 +27,13 @@ function NavLayout() {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/" className="nav-link" onClick={handleLogOut}>
-              Log Out
-            </NavLink>
-          </li>
-          <li className="nav-item">
             <NavLink to="/admin" className="nav-link">
               Admin Site
+            </NavLink>
+          </li>
+          <li className="nav-log-out" style={{}}>
+            <NavLink to="/" className="nav-link">
+              Log Out
             </NavLink>
           </li>
         </ul>
