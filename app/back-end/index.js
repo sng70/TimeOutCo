@@ -4,11 +4,11 @@ const port = 3001;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-//app.use(express.json);
-app.use(cors());
-app.use(bodyParser.urlencoded());
 
-const dbConfig = sql.connect({
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const dbConfig = {
   user: "sa",
   password: "yourStrong()Password",
   database: "ERP",
@@ -18,36 +18,37 @@ const dbConfig = sql.connect({
     encrypt: true, // for azure
     trustServerCertificate: true, // change to true for local dev / self-signed certs
   },
-});
+};
 
 app.post("/login", (req, res) => {
-  console.log("test");
-  const mail = req.body.username;
+  const mail = req.body.mail;
   const password = req.body.password;
-  let x;
-  dbConfig.then((pool) =>
-    pool
-      .request()
-      .input("mail", sql.VarChar, mail)
-      .input("password", sql.VarChar, password)
-      .query(
-        `Select * from Employees where mail = @mail AND employees_password = @password `,
-        (err, result) => {
-          if (err) {
-            res.send({ err: err });
+
+  sql
+    .connect(dbConfig)
+    .then((pool) =>
+      pool
+        .request()
+        .input("mail", sql.VarChar, mail)
+        .input("password", sql.VarChar, password)
+        .query(
+          `SELECT * FROM Employees WHERE mail = @mail AND employees_password = @password`,
+          (err, result) => {
+            if (err) {
+              res.status(500).send({ err: err });
+            } else if (result.recordset.length > 0) {
+              res.status(200).send({ message: "Login successful" });
+            } else {
+              res
+                .status(401)
+                .send({ message: "Wrong username/password combination" });
+            }
           }
-          console.log(result.recordset[0]?.id, result.recordsets);
-          console.log(!err);
-          if (result.recordset[0] && !err) {
-            console.log(result.recordset);
-            // res.send(result);
-            res.redirect("http://localhost:3000/home");
-          } else {
-            res.redirect("http://localhost:3000/wrongPassword");
-          }
-        }
-      )
-  );
+        )
+    )
+    .catch((error) => {
+      res.status(500).send({ err: error });
+    });
 });
 
 app.post("/register-brand", (req, res) => {
