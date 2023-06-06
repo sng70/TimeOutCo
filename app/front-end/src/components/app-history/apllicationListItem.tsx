@@ -15,14 +15,15 @@ const ApplicationListItem: FC<applicationProps> = ({
   begin_date,
   end_date,
 }) => {
-  id = 1;
   return (
     <li key={id} className="applicationListItem">
-      <div className="applicationWrapper">
-        <span>
-          {cause} {application_state} {begin_date} {end_date}
-        </span>
-      </div>
+      <a href={`/applications/${id}`}>
+        <div className="applicationWrapper">
+          <span>
+            {cause} {application_state} {begin_date} {end_date}
+          </span>
+        </div>
+      </a>
     </li>
   );
 };

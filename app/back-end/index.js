@@ -94,6 +94,19 @@ app.get("/:employeeId/applications.json", (req, res) => {
     });
 });
 
+app.get("/applications/:applicationId/application.json", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { applicationId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Holidays WHERE id=${applicationId}`);
+    })
+    .then((response) => {
+      res.json(response.recordset);
+    });
+});
+
 app.listen(port, () => {
   console.log(`Server has started on port ${port}`);
   console.log("http://localhost:3001");
