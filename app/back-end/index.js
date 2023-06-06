@@ -81,14 +81,12 @@ app.post("/register-brand", (req, res) => {
   );
 });
 
-app.get("/applications.json/:employeeId", (req, res) => {
+app.get("/:employeeId/applications.json", (req, res) => {
   dbConfig
     .then((connection) => {
       const { employeeId } = req.params;
       return connection
         .request()
-        .input()
-
         .query(`SELECT * FROM Holidays WHERE employee_id=${employeeId}`);
     })
     .then((response) => {

@@ -3,21 +3,26 @@ import { FC } from "react";
 interface applicationProps {
   id: number;
   cause: string;
-  applicationState: string;
-  beginDate: string;
-  endDate: string;
+  application_state: string;
+  begin_date: string;
+  end_date: string;
 }
 
 const ApplicationListItem: FC<applicationProps> = ({
   id,
   cause,
-  applicationState,
-  beginDate,
-  endDate,
+  application_state,
+  begin_date,
+  end_date,
 }) => {
+  id = 1;
   return (
     <li key={id} className="applicationListItem">
-      <div className="applicationWrapper"></div>
+      <div className="applicationWrapper">
+        <span>
+          {cause} {application_state} {begin_date} {end_date}
+        </span>
+      </div>
     </li>
   );
 };

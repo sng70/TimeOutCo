@@ -14,6 +14,7 @@ import Home from "../home/home";
 import AddNewEmployee from "../add-new-employees";
 
 import WrongPassword from "../wrongPass/index";
+import Application from "../applications/[id]";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
 
           <Route path="/app-history" element={<ApplicationHistory />} />
           <Route path="/application" element={<NewApplication />} />
+          <Route path="/applications">
+            <Route path=":id" element={<Application />} />
+          </Route>
+
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

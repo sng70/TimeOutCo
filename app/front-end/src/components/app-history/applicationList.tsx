@@ -2,7 +2,7 @@ import { FC } from "react";
 import ApplicationListItem, { applicationProps } from "./apllicationListItem";
 
 interface applicationListProps {
-  applications: Array<applicationProps>;
+  applications: applicationProps[];
 }
 
 const ApplicationList: FC<applicationListProps> = ({ applications }) => {
@@ -13,9 +13,9 @@ const ApplicationList: FC<applicationListProps> = ({ applications }) => {
           <ApplicationListItem
             id={application.id}
             cause={application.cause}
-            applicationState={application.applicationState}
-            beginDate={application.beginDate}
-            endDate={application.endDate}
+            application_state={application.application_state}
+            begin_date={application.begin_date}
+            end_date={application.end_date}
           />
         );
       })}
