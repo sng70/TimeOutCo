@@ -81,15 +81,26 @@ app.post("/register-brand", (req, res) => {
   );
 });
 
-app.get("/applications.json/:employeeId", (req, res) => {
+app.get("/:employeeId/applications.json", (req, res) => {
   dbConfig
     .then((connection) => {
       const { employeeId } = req.params;
       return connection
         .request()
-        .input()
-
         .query(`SELECT * FROM Holidays WHERE employee_id=${employeeId}`);
+    })
+    .then((response) => {
+      res.json(response.recordset);
+    });
+});
+
+app.get("/applications/:applicationId/application.json", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { applicationId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Holidays WHERE id=${applicationId}`);
     })
     .then((response) => {
       res.json(response.recordset);
