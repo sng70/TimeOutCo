@@ -92,7 +92,7 @@ function ReactRoutes() {
                 <NewApplication />
               </RequireAuth>
             }
-          />
+          />{" "}
         </Route>
       </Routes>
     </BrowserRouter>
