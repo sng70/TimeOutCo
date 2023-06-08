@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import "./index.css";
+import { useSignIn } from "react-auth-kit";
 function LogIn() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const signIn = useSignIn();
 
   const handleLogin = () => {
     Axios.post("http://localhost:3001/login", {

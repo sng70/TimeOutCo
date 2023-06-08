@@ -1,5 +1,5 @@
 import ApplicationHistory from "../app-history";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "../dashboard";
 import Contact from "../contact";
 import LogIn from "../login";

@@ -1,5 +1,5 @@
 import ApplicationHistory from "../app-history";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "../dashboard";
 import Contact from "../contact";
 import LogIn from "../login";
@@ -11,10 +11,11 @@ import AdminSite from "../admin-site";
 import Home from "../home/home";
 import AddNewEmployee from "../add-new-employees";
 import WrongPassword from "../wrongPass/index";
+import { RequireAuth } from "react-auth-kit";
 
-function App() {
+function ReactRoutes() {
   return (
-    <>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<LogIn />} />
         <Route path="*" element={<NotFound />} />
@@ -33,9 +34,9 @@ function App() {
           <Route path="/app-history" element={<ApplicationHistory />} />
           <Route path="/application" element={<NewApplication />} />{" "}
         </Route>
-      </Routes>{" "}
-    </>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default ReactRoutes;
