@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface applicationProps {
   id: number;
@@ -18,11 +19,13 @@ const ApplicationListItem: FC<applicationProps> = ({
   id = 1;
   return (
     <li key={id} className="applicationListItem">
-      <div className="applicationWrapper">
-        <span>
-          {cause} {application_state} {begin_date} {end_date}
-        </span>
-      </div>
+      <Link to={id.toString()}>
+        <div className="applicationWrapper">
+          <span>
+            {cause} {application_state} {begin_date} {end_date}
+          </span>
+        </div>
+      </Link>
     </li>
   );
 };

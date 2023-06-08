@@ -1,6 +1,7 @@
 # TODO:
 
-- application history -- Tomasz
+~- application history -- Tomasz
+
 - strona admina od strony firmy -- Tomasz
 - prywatne sciezki -- Aleks - ogarne jak wroce, trzeba zrobic w taki sposob, ze bedzie sprawdzalo czy uzytkownik ma ciasteczko, jesli nei ma to go redirectuje. -- PRIORITY WYSOKA
 - zabezpieczyc aby admin od strony firmy, mogl dodawac tylko do swojej firmy uzytkownikow, aby byl error, jak przekroczy limit -- Aleks
