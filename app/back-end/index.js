@@ -24,7 +24,6 @@ app.post("/login", (req, res) => {
   console.log("test");
   const mail = req.body.username;
   const password = req.body.password;
-  let x;
   dbConfig.then((pool) =>
     pool
       .request()
@@ -92,6 +91,23 @@ app.get("/:employeeId/applications.json", (req, res) => {
     })
     .then((response) => {
       res.json(response.recordset);
+    });
+});
+
+app.get("/applications/:appId", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { appId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Holidays WHERE id=${appId}`);
+    })
+    .then((response) => {
+      if (response.recordset.length === 0) {
+        res.json([{ employeeId: -1 }]);
+      } else {
+        res.json(response.recordset);
+      }
     });
 });
 

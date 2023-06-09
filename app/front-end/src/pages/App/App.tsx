@@ -12,6 +12,11 @@ import Home from "../home/home";
 import AddNewEmployee from "../add-new-employees";
 import WrongPassword from "../wrongPass/index";
 import SuccessfullyAdded from "../successfullyAdded";
+import Application from "../applications/[id]";
+import BrandAdmin from "../brand-admin";
+import BrandApplications from "../brand-admin/brandApplications";
+import BrandEmployees from "../brand-admin/brandEmployees";
+import BrandInfo from "../brand-admin/brandInfo";
 function App() {
   return (
     <>
@@ -32,7 +37,21 @@ function App() {
           />
           <Route path="/admin/newEmployee" element={<AddNewEmployee />} />
           <Route path="/app-history" element={<ApplicationHistory />} />
+          <Route
+            path="/app-history/applications/:id"
+            element={<Application />}
+          />
           <Route path="/application" element={<NewApplication />} />{" "}
+          <Route path="/brandAdmin" element={<BrandAdmin />} />
+          <Route
+            path="/brandAdmin/brandApplications"
+            element={<BrandApplications />}
+          />
+          <Route
+            path="/brandAdmin/brandEmployees"
+            element={<BrandEmployees />}
+          />
+          <Route path="/brandAdmin/brandInfo" element={<BrandInfo />} />
         </Route>
       </Routes>{" "}
     </>
