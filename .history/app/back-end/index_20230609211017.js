@@ -72,7 +72,7 @@ app.post("/register-brand", (req, res) => {
           } else {
             if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
               console.log(result.rowsAffected);
-              res.redirect("http://localhost:3000/added");
+              res.redirect("http://localhost:3000/success-ad");
             } else {
               res.send({ message: "Wrong username/password combination" });
             }

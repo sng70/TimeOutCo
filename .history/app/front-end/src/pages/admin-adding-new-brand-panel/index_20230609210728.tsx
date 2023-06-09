@@ -64,7 +64,6 @@ function AdminAddingNewBrandPanel() {
           onChange={(e) => {
             setTypeOfSub(e.target.value);
           }}
-          required
         >
           <option value={"basic"}>Basic</option>
           <option value={"Premium"}>Premium</option>
@@ -85,7 +84,7 @@ function AdminAddingNewBrandPanel() {
         <br />
         <br />
         <button type="submit" id="submitButton" onSubmit={handleAddUp}>
-          Add
+          Sign Up
         </button>
       </form>
     </>

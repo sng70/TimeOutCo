@@ -10,8 +10,6 @@ GO
 
 USE ERP
 
-Select * from Brands;
-
 CREATE TABLE Brands (
  id INT IDENTITY(0, 1),
  name VARCHAR(50) NOT NULL,

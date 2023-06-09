@@ -65,17 +65,16 @@ app.post("/register-brand", (req, res) => {
       .input("subscription_type", sql.VarChar, subscription)
       .input("hq_address", sql.VarChar(50), hqAddress)
       .query(
-        `INSERT INTO Brands (brand_mail, name, brands_password, subscription_type, hq_address) VALUES (@brand_mail, @name, @password, @subscription_type, @hq_address)`,
+        `INSERT INTO Brands (brand_mail, name, brand_password, subscription_type, hq_address) VALUES (@brand_mail, @name, @password, @subscription_type, @hq_address)`,
         (err, result) => {
           if (err) {
             res.send({ err: err });
+          }
+          if (result.rowsAffected[0] && !err) {
+            console.log(result.rowsAffected);
+            res.redirect("http://localhost:3000/home");
           } else {
-            if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
-              console.log(result.rowsAffected);
-              res.redirect("http://localhost:3000/added");
-            } else {
-              res.send({ message: "Wrong username/password combination" });
-            }
+            res.send({ message: "Wrong username/password combination" });
           }
         }
       )

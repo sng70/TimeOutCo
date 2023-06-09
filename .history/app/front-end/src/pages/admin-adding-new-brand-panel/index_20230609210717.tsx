@@ -57,20 +57,22 @@ function AdminAddingNewBrandPanel() {
         />
         <br />
         <label htmlFor="subscription">Type of Subscription:</label>
-        <select
-          name="subscription"
-          id="subscription"
-          value={"Basic"}
-          onChange={(e) => {
-            setTypeOfSub(e.target.value);
-          }}
-          required
-        >
+        <select name="subscription" id="subscription" value={"Basic"} onChange={(e) => {
+          setTypeOfSub
+        }}>
           <option value={"basic"}>Basic</option>
           <option value={"Premium"}>Premium</option>
           <option value={"Platinium"}>Platinium</option>
         </select>
-
+        {/* <input
+          type="text"
+          name="subscription"
+          id="subscription"
+          required
+          onChange={(e) => {
+            setTypeOfSub(e.target.value);
+          }}
+        /> */}
         <br />
         <label htmlFor="hqAddress">Head Quarter Address:</label>
         <input
@@ -85,7 +87,7 @@ function AdminAddingNewBrandPanel() {
         <br />
         <br />
         <button type="submit" id="submitButton" onSubmit={handleAddUp}>
-          Add
+          Sign Up
         </button>
       </form>
     </>

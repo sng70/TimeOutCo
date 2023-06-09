@@ -24,7 +24,6 @@ function App() {
           <Route path="/home" element={<Home name="!" />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/added" element={<SuccessfullyAdded />} />
           <Route path="/admin/" element={<AdminSite />} />
           <Route
             path="/admin/newBrand"

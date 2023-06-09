@@ -85,7 +85,7 @@ function AdminAddingNewBrandPanel() {
         <br />
         <br />
         <button type="submit" id="submitButton" onSubmit={handleAddUp}>
-          Add
+          Sign Up
         </button>
       </form>
     </>

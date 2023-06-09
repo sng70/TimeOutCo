@@ -9,7 +9,7 @@ function AdminAddingNewBrandPanel() {
   const [typeOfSub, setTypeOfSub] = useState("");
   const [hqAddress, setHqAddress] = useState("");
 
-  const handleAddUp = () => {
+  const handleLogin = () => {
     Axios.post("http://localhost:3001/register-brand", {
       brand: brand,
       brandMail: brandMail,
@@ -57,20 +57,15 @@ function AdminAddingNewBrandPanel() {
         />
         <br />
         <label htmlFor="subscription">Type of Subscription:</label>
-        <select
+        <input
+          type="text"
           name="subscription"
           id="subscription"
-          value={"Basic"}
+          required
           onChange={(e) => {
             setTypeOfSub(e.target.value);
           }}
-          required
-        >
-          <option value={"basic"}>Basic</option>
-          <option value={"Premium"}>Premium</option>
-          <option value={"Platinium"}>Platinium</option>
-        </select>
-
+        />
         <br />
         <label htmlFor="hqAddress">Head Quarter Address:</label>
         <input
@@ -85,7 +80,7 @@ function AdminAddingNewBrandPanel() {
         <br />
         <br />
         <button type="submit" id="submitButton" onSubmit={handleAddUp}>
-          Add
+          Sign Up
         </button>
       </form>
     </>
