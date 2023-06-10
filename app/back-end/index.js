@@ -111,6 +111,45 @@ app.get("/applications/:appId", (req, res) => {
     });
 });
 
+app.get("/applications/brand/:brandId", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { brandId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Holidays WHERE brand_id=${brandId}`);
+    })
+    .then((response) => {
+      res.json(response.recordset);
+    });
+});
+
+app.get("/employees/brand/:brandId", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { brandId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Employees WHERE brand_id=${brandId}`);
+    })
+    .then((response) => {
+      res.json(response.recordset);
+    });
+});
+
+app.get("/information/brand/:brandId", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { brandId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Brands WHERE brand_id=${brandId}`);
+    })
+    .then((response) => {
+      res.json(response.recordset);
+    });
+});
+
 app.listen(port, () => {
   console.log(`Server has started on port ${port}`);
   console.log("http://localhost:3001");

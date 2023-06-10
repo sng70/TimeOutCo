@@ -13,7 +13,7 @@ interface Props {
 
 const ApplicationBox: FC<Props> = ({ application }) => {
   if (application.length === 0) {
-    return <span></span>;
+    return <></>;
   } else {
     return (
       <span>
