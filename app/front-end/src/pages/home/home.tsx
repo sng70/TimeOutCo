@@ -11,13 +11,46 @@ function Home() {
 
   useEffect(() => {
     if (nameFromParams) {
+      localStorage.setItem("name", nameFromParams);
       setName(nameFromParams);
+    } else {
+      const nameFromStorage = localStorage.getItem("name");
+      if (nameFromStorage) {
+        setName(nameFromStorage);
+      }
     }
 
     if (roleFromParams) {
+      localStorage.setItem("role", roleFromParams);
       setRole(roleFromParams);
+    } else {
+      const roleFromStorage = localStorage.getItem("role");
+      if (roleFromStorage) {
+        setRole(roleFromStorage);
+      }
     }
   }, [nameFromParams, roleFromParams]);
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      const roleFromStorage = localStorage.getItem("role");
+      const nameFromStorage = localStorage.getItem("name");
+
+      if (
+        (event.key === "role" && event.newValue !== roleFromStorage) ||
+        (event.key === "name" && event.newValue !== nameFromStorage)
+      ) {
+        localStorage.setItem("role", roleFromStorage || "");
+        localStorage.setItem("name", nameFromStorage || "");
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   return (
     <div>
