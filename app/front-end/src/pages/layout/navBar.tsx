@@ -1,11 +1,25 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import "./NavLayout.css";
-function NavLayout() {
+
+const handleLogout = () => {
+  localStorage.removeItem("name");
+  localStorage.removeItem("role");
+  window.location.replace("http://localhost:3000/");
+};
+
+function NavLayout({ children }: React.PropsWithChildren<{}>) {
+  const role = localStorage.getItem("role");
+
   return (
     <>
       <nav className={`navbar`}>
         <ul className="navbar-nav">
+          <li className="nav-item">
+            <NavLink to="/home" className="nav-link">
+              Home
+            </NavLink>
+          </li>
           <li className="nav-item">
             <NavLink to="/application" className="nav-link">
               Application
@@ -26,13 +40,24 @@ function NavLayout() {
               Account Settings
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/admin" className="nav-link">
-              Admin Site
-            </NavLink>
-          </li>
-          <li className="nav-log-out" style={{}}>
-            <NavLink to="/" className="nav-link">
+          {role ===
+            "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9" && (
+            <li className="nav-item">
+              <NavLink to="/admin" className="nav-link">
+                Admin Site
+              </NavLink>
+            </li>
+          )}
+          {role ===
+            "e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419" && (
+            <li className="nav-item">
+              <NavLink to="/sa" className="nav-link">
+                SA Site
+              </NavLink>
+            </li>
+          )}
+          <li className="nav-log-out">
+            <NavLink to="/" className="nav-link" onClick={handleLogout}>
               Log Out
             </NavLink>
           </li>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./index.css";
 import Axios from "axios";
 
-function AdminAddingNewBrandPanel() {
+function SaAddingNewBrandPanel() {
   const [brand, setBrand] = useState("");
   const [brandMail, setBrandMail] = useState("");
   const [brandPassword, setBrandPassword] = useState("");
@@ -57,18 +57,20 @@ function AdminAddingNewBrandPanel() {
         />
         <br />
         <label htmlFor="subscription">Type of Subscription:</label>
-        <select name="subscription" id="subscription" value={"basic"}>
-          <option value={"basic"}></option>
-        </select>
-        {/* <input
-          type="text"
+        <select
           name="subscription"
           id="subscription"
-          required
+          value={"Basic"}
           onChange={(e) => {
             setTypeOfSub(e.target.value);
           }}
-        /> */}
+          required
+        >
+          <option value={"basic"}>Basic</option>
+          <option value={"Premium"}>Premium</option>
+          <option value={"Platinium"}>Platinium</option>
+        </select>
+
         <br />
         <label htmlFor="hqAddress">Head Quarter Address:</label>
         <input
@@ -83,11 +85,11 @@ function AdminAddingNewBrandPanel() {
         <br />
         <br />
         <button type="submit" id="submitButton" onSubmit={handleAddUp}>
-          Sign Up
+          Add
         </button>
       </form>
     </>
   );
 }
 
-export default AdminAddingNewBrandPanel;
+export default SaAddingNewBrandPanel;

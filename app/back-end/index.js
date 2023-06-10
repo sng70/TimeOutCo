@@ -1,4 +1,5 @@
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 const sql = require("mssql");
 const port = 3001;
 const bodyParser = require("body-parser");
@@ -7,6 +8,12 @@ const app = express();
 //app.use(express.json);
 app.use(cors());
 app.use(bodyParser.urlencoded());
+
+const roleSecrets = {
+  admin: "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9",
+  sa: "e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419",
+  user: "54a9e03ff9a76476905f45e37e10a4064641f2e073748e4f462c4e6f9ea8fcf0",
+};
 
 const dbConfig = sql.connect({
   user: "sa",
@@ -21,7 +28,6 @@ const dbConfig = sql.connect({
 });
 
 app.post("/login", (req, res) => {
-  console.log("test");
   const mail = req.body.username;
   const password = req.body.password;
   dbConfig.then((pool) =>
@@ -30,17 +36,25 @@ app.post("/login", (req, res) => {
       .input("mail", sql.VarChar, mail)
       .input("password", sql.VarChar, password)
       .query(
-        `Select * from Employees where mail = @mail AND employees_password = @password `,
+        `SELECT name, role FROM Employees WHERE mail = @mail AND employees_password = @password`,
         (err, result) => {
           if (err) {
             res.send({ err: err });
           }
-          console.log(result.recordset[0]?.id, result.recordsets);
-          console.log(!err);
+
           if (result.recordset[0] && !err) {
-            console.log(result.recordset);
-            // res.send(result);
-            res.redirect("http://localhost:3000/home");
+            const name = result.recordset[0].name;
+            const role = result.recordset[0].role;
+
+            // Sprawdź, czy rola istnieje w obiekcie roles
+            if (roleSecrets.hasOwnProperty(role)) {
+              const roleCode = roleSecrets[role];
+
+              // Przekieruj do strony głównej z przekazanymi parametrami
+              res.redirect(
+                `http://localhost:3000/home?name=${name}&role=${roleCode}`
+              );
+            }
           } else {
             res.redirect("http://localhost:3000/wrongPassword");
           }

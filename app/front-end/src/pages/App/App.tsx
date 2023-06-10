@@ -5,9 +5,9 @@ import Contact from "../contact";
 import LogIn from "../login";
 import NotFound from "../not-found";
 import NewApplication from "../new-app";
-import AdminAddingNewBrandPanel from "../admin-adding-new-brand-panel";
+import SaAddingNewBrandPanel from "../sa-adding-new-brand-panel";
 import NavLayout from "../layout/navBar";
-import AdminSite from "../admin-site";
+
 import Home from "../home/home";
 import AddNewEmployee from "../add-new-employees";
 import WrongPassword from "../wrongPass/index";
@@ -17,6 +17,7 @@ import BrandAdmin from "../brand-admin";
 import BrandApplications from "../brand-admin/brandApplications";
 import BrandEmployees from "../brand-admin/brandEmployees";
 import BrandInfo from "../brand-admin/brandInfo";
+import SaSite from "../sa";
 function App() {
   return (
     <>
@@ -26,15 +27,10 @@ function App() {
         <Route path="/wrongPassword" element={<WrongPassword />} />
 
         <Route path="" element={<NavLayout />}>
-          <Route path="/home" element={<Home name="!" />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/added" element={<SuccessfullyAdded />} />
-          <Route path="/admin/" element={<AdminSite />} />
-          <Route
-            path="/admin/newBrand"
-            element={<AdminAddingNewBrandPanel />}
-          />
           <Route path="/admin/newEmployee" element={<AddNewEmployee />} />
           <Route path="/app-history" element={<ApplicationHistory />} />
           <Route
@@ -52,6 +48,8 @@ function App() {
             element={<BrandEmployees />}
           />
           <Route path="/brandAdmin/brandInfo" element={<BrandInfo />} />
+          <Route path="/sa" element={<SaSite />} />
+          <Route path="/sa/newBrand" element={<SaAddingNewBrandPanel />} />
         </Route>
       </Routes>{" "}
     </>
