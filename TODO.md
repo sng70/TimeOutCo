@@ -7,6 +7,7 @@
 
 # TODO:
 
+- Po wejsciu na strone,glowna licznik ile zostalo dni wolnych
 - strona admina od strony firmy -- Tomasz
 - obsluga, aplikowania o urlop -- Tomasz
 - prywatne sciezki -- Aleks - ogarne jak wroce, trzeba zrobic w taki sposob, ze bedzie sprawdzalo czy uzytkownik ma ciasteczko, jesli nei ma to go redirectuje. -- PRIORITY ostateczne

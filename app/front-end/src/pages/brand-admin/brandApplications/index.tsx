@@ -8,11 +8,12 @@ const BrandApplications: FC = () => {
   const [applications, setApplications] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/employeeId/${employeeId}/information`)
+      .post
+      (`http://localhost:3001/employeeId/${employeeId}/information`)
       .then((res) => {
         setBrandId(res.data[0].brand_id);
         axios
-          .get(`http://localhost:3001/applications/brand/${brandId}`)
+          .post(`http://localhost:3001/applications/brand/${brandId}`)
           .then((res) => {
             setApplications(res.data);
           });

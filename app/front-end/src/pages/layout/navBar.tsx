@@ -36,11 +36,6 @@ function NavLayout() {
               Contact
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/dashboard" className="nav-link">
-              Dashboard
-            </NavLink>
-          </li>
           {role ===
             "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9" && (
             <li className="nav-item">

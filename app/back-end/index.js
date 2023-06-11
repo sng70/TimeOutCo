@@ -171,13 +171,17 @@ app.get("/information/brand/:brandId", (req, res) => {
     });
 });
 
-app.get("/employeeId/:employeeId/information", (req, res) => {
-  dbConfig.then((connection) => {
-    const { employeeId } = req.params;
-    return connection
-      .request()
-      .query(`SELECT * FROM Employees WHERE id=${employeeId}`);
-  });
+app.post("/employeeId/:employeeId/information", (req, res) => {
+  dbConfig
+    .then((connection) => {
+      const { employeeId } = req.params;
+      return connection
+        .request()
+        .query(`SELECT * FROM Employees WHERE id=${employeeId}`);
+    })
+    .then((response) => {
+      res.json(response.recordset);
+    });
 });
 
 app.listen(port, () => {

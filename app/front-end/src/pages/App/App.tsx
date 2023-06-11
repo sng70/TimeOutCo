@@ -1,6 +1,6 @@
 import ApplicationHistory from "../app-history";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../dashboard";
+
 import Contact from "../contact";
 import LogIn from "../login";
 import NotFound from "../not-found";
@@ -29,7 +29,6 @@ function App() {
         <Route element={<NavLayout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/added" element={<SuccessfullyAdded />} />
           <Route path="/app-history" element={<ApplicationHistory />} />
           <Route
