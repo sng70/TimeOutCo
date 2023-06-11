@@ -1,26 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import Axios from "axios";
-import { useSignIn } from "react-auth-kit";
+
 import "./index.css";
 
 function LogIn() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
-  const signIn = useSignIn();
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const handleLogin = () => {
     Axios.post("http://localhost:3001/login", {
       mail: mail,
       password: password,
+      remember: localStorage.getItem("remember") || "false",
     }).then((response) => {
-      signIn({
-        token: response.data.token,
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: { mail: mail },
-      });
+      setShouldRedirect(true);
     });
   };
+
+  useEffect(() => {
+    const remember = localStorage.getItem("remember") === "true";
+    if (remember) {
+      const name = localStorage.getItem("name") || "";
+      const role = localStorage.getItem("role") || "";
+      if (name && role && role.length === 64) {
+        setShouldRedirect(true);
+      }
+    }
+  }, []);
+
+  if (shouldRedirect) {
+    return <Navigate to="/home" />;
+  }
 
   return (
     <div className="App">
@@ -62,6 +74,19 @@ function LogIn() {
             required
             onChange={(e) => {
               setPassword(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="remember" className="rememberText">
+            Remember Me
+          </label>
+          <input
+            id="remember"
+            name="remember"
+            type="checkbox"
+            onChange={(e) => {
+              localStorage.setItem("remember", e.target.checked.toString());
             }}
           />
         </div>

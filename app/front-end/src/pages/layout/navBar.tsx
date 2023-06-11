@@ -1,22 +1,17 @@
 import React from "react";
 import { Outlet, NavLink, Navigate } from "react-router-dom";
 import "./NavLayout.css";
-import { useSignOut } from "react-auth-kit";
 
 const handleLogout = () => {
   localStorage.removeItem("name");
   localStorage.removeItem("role");
+  localStorage.removeItem("remember");
+
   <Navigate to="/" />;
 };
 
 function NavLayout() {
   const role = localStorage.getItem("role");
-  const signOut = useSignOut();
-  const conductLogOut = () => {
-    signOut();
-    <Navigate to="/" />;
-  };
-
   return (
     <>
       <nav className={`navbar`}>
@@ -43,7 +38,7 @@ function NavLayout() {
           </li>
           <li className="nav-item">
             <NavLink to="/dashboard" className="nav-link">
-              Account Settings
+              Dashboard
             </NavLink>
           </li>
           {role ===
@@ -63,7 +58,7 @@ function NavLayout() {
             </li>
           )}
           <li className="nav-log-out">
-            <NavLink to="/" className="nav-link" onClick={conductLogOut}>
+            <NavLink to="/" className="nav-link" onClick={handleLogout}>
               Log Out
             </NavLink>
           </li>

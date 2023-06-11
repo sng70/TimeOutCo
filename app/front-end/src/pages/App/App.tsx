@@ -26,7 +26,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/wrongPassword" element={<WrongPassword />} />
 
-        <Route path="" element={<NavLayout />}>
+        <Route element={<NavLayout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/dashboard" element={<Dashboard />} />
