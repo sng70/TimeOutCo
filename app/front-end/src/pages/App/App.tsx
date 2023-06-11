@@ -7,7 +7,6 @@ import NotFound from "../not-found";
 import NewApplication from "../new-app";
 import SaAddingNewBrandPanel from "../sa-adding-new-brand-panel";
 import NavLayout from "../layout/navBar";
-
 import Home from "../home/home";
 import AddNewEmployee from "../brand-admin/add-new-employees";
 import WrongPassword from "../wrongPass/index";
@@ -18,6 +17,7 @@ import BrandApplications from "../brand-admin/brandApplications";
 import BrandEmployees from "../brand-admin/brandEmployees";
 import BrandInfo from "../brand-admin/brandInfo";
 import SaSite from "../sa";
+
 function App() {
   return (
     <>
@@ -32,10 +32,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/added" element={<SuccessfullyAdded />} />
           <Route path="/app-history" element={<ApplicationHistory />} />
-          <Route
-            path="/app-history/applications/:id"
-            element={<Application />}
-          />
+          <Route path="/applications/:id" element={<Application />} />
           <Route path="/application" element={<NewApplication />} />{" "}
           <Route path="/brandAdmin" element={<BrandAdmin />} />
           <Route
