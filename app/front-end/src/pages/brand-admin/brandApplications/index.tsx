@@ -3,13 +3,19 @@ import axios from "axios";
 import ApplicationList from "../../../components/app-history/applicationList";
 
 const BrandApplications: FC = () => {
-  const brandId = 1;
+  const employeeId = localStorage.getItem("id");
+  const [brandId, setBrandId] = useState(-1);
   const [applications, setApplications] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/applications/brandId/${brandId}`)
+      .get(`http://localhost:3001/employeeId/${employeeId}/information`)
       .then((res) => {
-        setApplications(res.data);
+        setBrandId(res.data[0].brand_id);
+        axios
+          .get(`http://localhost:3001/applications/brand/${brandId}`)
+          .then((res) => {
+            setApplications(res.data);
+          });
       });
   }, []);
 

@@ -6,6 +6,7 @@ function Home() {
   const params = new URLSearchParams(location.search);
   const nameFromParams = params.get("name");
   const roleFromParams = params.get("role");
+  const idFromParams = params.get("id");
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
@@ -28,6 +29,10 @@ function Home() {
       if (roleFromStorage) {
         setRole(roleFromStorage);
       }
+    }
+
+    if (idFromParams) {
+      localStorage.setItem("id", idFromParams);
     }
   }, [nameFromParams, roleFromParams]);
 
@@ -57,7 +62,6 @@ function Home() {
       <h1 style={{ justifyContent: "center", display: "flex" }}>
         Hello {name}
       </h1>
-      <p>Your role: {role}</p>
     </div>
   );
 }

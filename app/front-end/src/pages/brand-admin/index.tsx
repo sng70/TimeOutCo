@@ -7,8 +7,12 @@ const BrandAdmin: FC = () => {
     <>
       <h1>Brand admin</h1>
       <Link to="brandEmployees">See all employees</Link>
+      <br />
       <Link to="brandApplications">See holidays applications</Link>
+      <br />
       <Link to="brandInfo">See brand info</Link>
+      <br />
+      <Link to="newEmployee">Add new employee</Link>
     </>
   );
 };

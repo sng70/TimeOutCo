@@ -36,7 +36,7 @@ app.post("/login", (req, res) => {
       .input("mail", sql.VarChar, mail)
       .input("password", sql.VarChar, password)
       .query(
-        `SELECT name, role FROM Employees WHERE mail = @mail AND employees_password = @password`,
+        `SELECT name, role, id FROM Employees WHERE mail = @mail AND employees_password = @password`,
         (err, result) => {
           if (err) {
             res.send({ err: err });
@@ -45,13 +45,19 @@ app.post("/login", (req, res) => {
           if (result.recordset[0] && !err) {
             const name = result.recordset[0].name;
             const role = result.recordset[0].role;
+            const id = result.recordset[0].id;
 
             // Sprawdź, czy rola istnieje w obiekcie roles
             if (roleSecrets.hasOwnProperty(role)) {
               const roleCode = roleSecrets[role];
 
               res.redirect(
-                "http://localhost:3000/home?name=" + name + "&role=" + roleCode
+                "http://localhost:3000/home?name=" +
+                  name +
+                  "&role=" +
+                  roleCode +
+                  "&id=" +
+                  id
               );
             }
           } else {
@@ -130,7 +136,9 @@ app.get("/applications/brand/:brandId", (req, res) => {
       const { brandId } = req.params;
       return connection
         .request()
-        .query(`SELECT * FROM Holidays WHERE brand_id=${brandId}`);
+        .query(
+          `SELECT * FROM Holidays h JOIN Employees e ON h.employee_id=e.id WHERE e.brand_id=${brandId}`
+        );
     })
     .then((response) => {
       res.json(response.recordset);
@@ -161,6 +169,15 @@ app.get("/information/brand/:brandId", (req, res) => {
     .then((response) => {
       res.json(response.recordset);
     });
+});
+
+app.get("/employeeId/:employeeId/information", (req, res) => {
+  dbConfig.then((connection) => {
+    const { employeeId } = req.params;
+    return connection
+      .request()
+      .query(`SELECT * FROM Employees WHERE id=${employeeId}`);
+  });
 });
 
 app.listen(port, () => {
