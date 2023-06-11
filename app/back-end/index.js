@@ -50,19 +50,6 @@ app.post("/login", (req, res) => {
             if (roleSecrets.hasOwnProperty(role)) {
               const roleCode = roleSecrets[role];
 
-              // Ustawienie ciasteczka z nazwą i rolą użytkownika
-              if (req.body.remember === "true") {
-                res.cookie("name", name, { maxAge: 30 * 24 * 60 * 60 * 1000 }); // 30 dni
-                res.cookie("role", roleCode, {
-                  maxAge: 30 * 24 * 60 * 60 * 1000,
-                }); // 30 dni
-              } else {
-                // Usunięcie ciasteczek
-                res.clearCookie("name");
-                res.clearCookie("role");
-              }
-
-              // Przekierowanie do strony głównej
               res.redirect(
                 "http://localhost:3000/home?name=" + name + "&role=" + roleCode
               );
