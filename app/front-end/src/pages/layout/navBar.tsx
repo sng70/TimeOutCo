@@ -1,15 +1,21 @@
 import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, Navigate } from "react-router-dom";
 import "./NavLayout.css";
+import { useSignOut } from "react-auth-kit";
 
 const handleLogout = () => {
   localStorage.removeItem("name");
   localStorage.removeItem("role");
-  window.location.replace("http://localhost:3000/");
+  <Navigate to="/" />;
 };
 
-function NavLayout({ children }: React.PropsWithChildren<{}>) {
+function NavLayout() {
   const role = localStorage.getItem("role");
+  const signOut = useSignOut();
+  const conductLogOut = () => {
+    signOut();
+    <Navigate to="/" />;
+  };
 
   return (
     <>
@@ -57,13 +63,14 @@ function NavLayout({ children }: React.PropsWithChildren<{}>) {
             </li>
           )}
           <li className="nav-log-out">
-            <NavLink to="/" className="nav-link" onClick={handleLogout}>
+            <NavLink to="/" className="nav-link" onClick={conductLogOut}>
               Log Out
             </NavLink>
           </li>
         </ul>
       </nav>
       <Outlet />
+      {/* TODO SPYTAJ MICHALA, CZEMU DOPIERO LADUJA SIE TE SITE ADMINY I ADMINE SITE, PO ODSWIEZENIU STRONY */}
     </>
   );
 }

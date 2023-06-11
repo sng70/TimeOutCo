@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useSignIn } from "react-auth-kit";
 import "./index.css";
+
 function LogIn() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const signIn = useSignIn();
 
   const handleLogin = () => {
     Axios.post("http://localhost:3001/login", {
       mail: mail,
       password: password,
-    }).then((response) => {});
+    }).then((response) => {
+      signIn({
+        token: response.data.token,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: { mail: mail },
+      });
+    });
   };
 
   return (
@@ -64,4 +74,3 @@ function LogIn() {
 }
 
 export default LogIn;
-export {};
