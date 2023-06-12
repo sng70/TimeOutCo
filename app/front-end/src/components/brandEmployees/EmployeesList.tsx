@@ -8,7 +8,7 @@ interface employee {
   mail: string;
   phone_number: string;
   position: string;
-  is_admin: boolean;
+  role: string;
   holidays_days_ammount: number;
 }
 
@@ -28,7 +28,7 @@ const EmployeesList: FC<employees> = ({ employees }) => {
             mail={employee.mail}
             phone_number={employee.phone_number}
             position={employee.position}
-            is_admin={employee.is_admin}
+            role={employee.role}
             holidays_days_ammount={employee.holidays_days_ammount}
           />
         );

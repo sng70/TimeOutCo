@@ -8,7 +8,7 @@ interface employee {
   mail: string;
   phone_number: string;
   position: string;
-  is_admin: boolean;
+  role: string;
   holidays_days_ammount: number;
 }
 
@@ -19,20 +19,22 @@ const Employee: FC<employee> = ({
   mail,
   phone_number,
   position,
-  is_admin,
+  role,
   holidays_days_ammount,
 }) => {
   return (
     <li>
       <span>
         {name} {surname} {mail} {phone_number} {position}{" "}
-        {is_admin == true ? "admin" : "not admin"} {holidays_days_ammount}
+        {role === "admin" ? "admin" : "not admin"} {holidays_days_ammount}
       </span>
-      {/* <button
-        onClick={axios.post(`http://localhost:3001/deleteEmployee/${id}`)}
+      <button
+        onClick={() => {
+          axios.post(`http://localhost:3001/deleteEmployee}`, { id: id });
+        }}
       >
         delete employee
-      </button> */}
+      </button>
     </li>
   );
 };

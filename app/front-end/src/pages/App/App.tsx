@@ -17,6 +17,12 @@ import BrandApplications from "../brand-admin/brandApplications";
 import BrandEmployees from "../brand-admin/brandEmployees";
 import BrandInfo from "../brand-admin/brandInfo";
 import SaSite from "../sa";
+import EmployeeDeletedSuccessfully from "../brand-admin/brandEmployees/results/successful";
+import EmployeeDeletedUnsuccessfully from "../brand-admin/brandEmployees/results/unsuccessful";
+import EmployeeAddedSuccessfully from "../brand-admin/add-new-employees/results/successful";
+import EmployeeAddedUnsuccessfully from "../brand-admin/add-new-employees/results/unsuccessful";
+import ApplicationAddedSuccessfully from "../new-app/results/successful";
+import ApplicationAddedUnuccessfully from "../new-app/results/unsuccessful";
 
 function App() {
   return (
@@ -32,7 +38,15 @@ function App() {
           <Route path="/added" element={<SuccessfullyAdded />} />
           <Route path="/app-history" element={<ApplicationHistory />} />
           <Route path="/applications/:id" element={<Application />} />
-          <Route path="/application" element={<NewApplication />} />{" "}
+          <Route path="/application" element={<NewApplication />} />
+          <Route
+            path="/application/successful"
+            element={<ApplicationAddedSuccessfully />}
+          />
+          <Route
+            path="/application/unsuccessful"
+            element={<ApplicationAddedUnuccessfully />}
+          />
           <Route path="/brandAdmin" element={<BrandAdmin />} />
           <Route
             path="/brandAdmin/brandApplications"
@@ -42,8 +56,24 @@ function App() {
             path="/brandAdmin/brandEmployees"
             element={<BrandEmployees />}
           />
+          <Route
+            path="/brandAdmin/brandEmployees/successful"
+            element={<EmployeeDeletedSuccessfully />}
+          />
+          <Route
+            path="/brandAdmin/brandEmployees/unsuccessful"
+            element={<EmployeeDeletedUnsuccessfully />}
+          />
           <Route path="/brandAdmin/brandInfo" element={<BrandInfo />} />
           <Route path="/brandAdmin/newEmployee" element={<AddNewEmployee />} />
+          <Route
+            path="/brandAdmin/newEmployee/successful"
+            element={<EmployeeAddedSuccessfully />}
+          />
+          <Route
+            path="/brandAdmin/newEmployee/unsuccessful"
+            element={<EmployeeAddedUnsuccessfully />}
+          />
           <Route path="/sa" element={<SaSite />} />
           <Route path="/sa/newBrand" element={<SaAddingNewBrandPanel />} />
         </Route>

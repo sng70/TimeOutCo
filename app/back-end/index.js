@@ -100,6 +100,105 @@ app.post("/register-brand", (req, res) => {
   );
 });
 
+app.post("/deleteEmployee", (req, res) => {
+  const employeeId = req.body.id;
+  dbConfig.then((connection) => {
+    return (
+      connection
+        .request()
+        .query(`DELETE FROM Employees WHERE id=${employeeId}`),
+      (err, result) => {
+        if (err) {
+          res.send({ err: err });
+        } else {
+          if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
+            res.redirect(
+              "http://localhost:3000/brandAdmin/brandEmployees/successful"
+            );
+          } else {
+            res.redirect(
+              "http://localhost:3000//brandAdmin/brandEmployees/unsuccessful"
+            );
+          }
+        }
+      }
+    );
+  });
+});
+
+app.post("/addEmployee", (req, res) => {
+  const name = req.body.name;
+  const surname = req.body.surname;
+  const mail = req.body.mail;
+  const phoneNumber = req.body.phoneNumber;
+  const position = req.body.position;
+  const password = req.body.password;
+  const admin = req.body.admin === "true" ? "admin" : "user";
+  const holidaysAmmount = Number(req.body.holidaysAmmount);
+  const brandId = req.body.brandId;
+  console.log(req.body);
+  dbConfig.then((connection) => {
+    return connection
+      .request()
+      .input("name", sql.VarChar, name)
+      .input("surname", sql.VarChar, surname)
+      .input("mail", sql.VarChar, mail)
+      .input("phoneNumber", sql.VarChar, phoneNumber)
+      .input("position", sql.VarChar, position)
+      .input("admin", sql.VarChar, admin)
+      .input("holidaysAmmount", sql.Int, holidaysAmmount)
+      .input("brandId", sql.Int, brandId)
+      .input("password", sql.VarChar, password)
+      .query(
+        `INSERT INTO Employees (brand_id, name, surname, mail, phone_number, position, employees_password, role, holidays_days_ammount) VALUES (@brandId, @name, @surname, @mail, @phoneNumber, @position, @password, @admin, @holidaysAmmount)`,
+        (err, result) => {
+          if (err) {
+            res.send({ err: err });
+          } else {
+            if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
+              res.redirect(
+                "http://localhost:3000/brandAdmin/addEmployee/successful"
+              );
+            } else {
+              res.redirect(
+                "http://localhost:3000/brandAdmin/addEmployee/unsuccessful"
+              );
+            }
+          }
+        }
+      );
+  });
+});
+
+app.post("/addApplication", (req, res) => {
+  const employeeId = req.body.employeeId;
+  const cause = req.body.cause;
+  const beginDate = req.body.beginDate;
+  const endDate = req.body.endDate;
+  dbConfig.then((connection) => {
+    connection
+      .request()
+      .input("employeeId", sql.Int, employeeId)
+      .input("cause", sql.VarChar, cause)
+      .input("beginDate", sql.Date, beginDate)
+      .input("endDate", sql.Date, endDate)
+      .query(
+        "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, pending, @beginDate, @endDate",
+        (err, result) => {
+          if (err) {
+            res.send({ err: err });
+          } else {
+            if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
+              res.redirect("http://localhost:3000/application/successful");
+            } else {
+              res.redirect("http://localhost:3000/application/unsuccessful");
+            }
+          }
+        }
+      );
+  });
+});
+
 app.get("/:employeeId/applications.json", (req, res) => {
   dbConfig
     .then((connection) => {
@@ -158,7 +257,7 @@ app.get("/employees/brand/:brandId", (req, res) => {
     });
 });
 
-app.get("/information/brand/:brandId", (req, res) => {
+app.get("/brand/:brandId/information", (req, res) => {
   dbConfig
     .then((connection) => {
       const { brandId } = req.params;

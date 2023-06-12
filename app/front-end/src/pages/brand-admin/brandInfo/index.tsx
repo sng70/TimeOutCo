@@ -3,13 +3,19 @@ import axios from "axios";
 import Brand from "../../../components/brandInfo/brand";
 
 const BrandInfo: FC = () => {
-  const brandId = 1;
+  const employeeId = localStorage.getItem("id");
   const [brand, setBrand] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/employees/brandId/${brandId}`)
+      .get(`http://localhost:3001/employeeId/${employeeId}/information`)
       .then((res) => {
-        setBrand(res.data);
+        axios
+          .get(
+            `http://localhost:3001/brand/${res.data[0].brand_id}/information`
+          )
+          .then((res) => {
+            setBrand(res.data);
+          });
       });
   }, []);
   return (

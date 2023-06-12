@@ -3,13 +3,17 @@ import EmployeesList from "../../../components/brandEmployees/EmployeesList";
 import axios from "axios";
 
 const BrandEmployees: FC = () => {
-  const brandId = 1;
+  const employeeId = localStorage.getItem("id");
   const [employees, setEmployees] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/employees/brandId/${brandId}`)
+      .get(`http://localhost:3001/employeeId/${employeeId}/information`)
       .then((res) => {
-        setEmployees(res.data);
+        axios
+          .get(`http://localhost:3001/employees/brand/${res.data[0].brand_id}`)
+          .then((res) => {
+            setEmployees(res.data);
+          });
       });
   }, []);
 
