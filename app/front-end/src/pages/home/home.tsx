@@ -7,6 +7,7 @@ function Home() {
   const nameFromParams = params.get("name");
   const roleFromParams = params.get("role");
   const idFromParams = params.get("id");
+  const brandIdFromParams = params.get("brandId");
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
@@ -33,6 +34,10 @@ function Home() {
 
     if (idFromParams) {
       localStorage.setItem("id", idFromParams);
+    }
+
+    if (brandIdFromParams) {
+      localStorage.setItem("brandId", brandIdFromParams);
     }
   }, [nameFromParams, roleFromParams]);
 

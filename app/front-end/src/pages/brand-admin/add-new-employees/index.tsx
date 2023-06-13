@@ -15,6 +15,7 @@ const AddNewEmployee = () => {
       password: password,
       holidaysAmmount: holidaysAmmount,
     });
+    window.location.reload();
   };
 
   const employeeId = localStorage.getItem("id");
@@ -41,7 +42,7 @@ const AddNewEmployee = () => {
   } else {
     return (
       <>
-        <form method="POST" action="http://localhost:3001/addEmployee">
+        <form>
           <h1>Add new Employee</h1>
           <label htmlFor="name">Employee Name:</label>
           <input
@@ -72,7 +73,8 @@ const AddNewEmployee = () => {
           <br />
           <label htmlFor="phoneNumber">Employee Phone Number:</label>
           <input
-            type="text"
+            type="tel"
+            pattern="[0-9]{9}"
             name="phoneNumber"
             id="phoneNumber"
             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -114,7 +116,7 @@ const AddNewEmployee = () => {
           />
           <br />
           <br />
-          <button type="submit" id="submitButton" onSubmit={handleAddUp}>
+          <button type="button" id="submitButton" onClick={handleAddUp}>
             Add
           </button>
         </form>

@@ -16,7 +16,6 @@ const ApplicationListItem: FC<applicationProps> = ({
   begin_date,
   end_date,
 }) => {
-  id = 1;
   return (
     <li key={id} className="applicationListItem">
       <Link to={`http://localhost:3000/applications/${id}`}>

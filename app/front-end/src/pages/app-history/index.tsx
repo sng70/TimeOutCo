@@ -8,7 +8,7 @@ import "./index.css";
 import axios from "axios";
 
 function ApplicationHistory() {
-  const employeeId: number = 1;
+  const employeeId = localStorage.getItem("id");
   const [applications, setApplications] = useState([]);
   useEffect(() => {
     axios

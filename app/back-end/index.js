@@ -8,6 +8,7 @@ const app = express();
 //app.use(express.json);
 app.use(cors());
 app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 const roleSecrets = {
   admin: "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9",
@@ -36,7 +37,7 @@ app.post("/login", (req, res) => {
       .input("mail", sql.VarChar, mail)
       .input("password", sql.VarChar, password)
       .query(
-        `SELECT name, role, id FROM Employees WHERE mail = @mail AND employees_password = @password`,
+        `SELECT name, role, id, brand_id FROM Employees WHERE mail = @mail AND employees_password = @password`,
         (err, result) => {
           if (err) {
             res.send({ err: err });
@@ -46,6 +47,7 @@ app.post("/login", (req, res) => {
             const name = result.recordset[0].name;
             const role = result.recordset[0].role;
             const id = result.recordset[0].id;
+            const brandId = result.recordset[0].brand_id;
 
             // Sprawdź, czy rola istnieje w obiekcie roles
             if (roleSecrets.hasOwnProperty(role)) {
@@ -57,7 +59,9 @@ app.post("/login", (req, res) => {
                   "&role=" +
                   roleCode +
                   "&id=" +
-                  id
+                  id +
+                  "&brandId=" +
+                  brandId
               );
             }
           } else {
@@ -106,7 +110,8 @@ app.post("/deleteEmployee", (req, res) => {
     return (
       connection
         .request()
-        .query(`DELETE FROM Employees WHERE id=${employeeId}`),
+        .input("id", sql.Int, employeeId)
+        .query(`DELETE FROM Employees WHERE id=@id`),
       (err, result) => {
         if (err) {
           res.send({ err: err });
@@ -205,7 +210,8 @@ app.get("/:employeeId/applications.json", (req, res) => {
       const { employeeId } = req.params;
       return connection
         .request()
-        .query(`SELECT * FROM Holidays WHERE employee_id=${employeeId}`);
+        .input("employeeId", sql.Int, employeeId)
+        .query(`SELECT * FROM Holidays WHERE employee_id=@employeeId`);
     })
     .then((response) => {
       res.json(response.recordset);
@@ -218,7 +224,10 @@ app.get("/applications/:appId", (req, res) => {
       const { appId } = req.params;
       return connection
         .request()
-        .query(`SELECT * FROM Holidays WHERE id=${appId}`);
+        .input("appId", sql.Int, appId)
+        .query(
+          `SELECT h.*, e.brand_id FROM Holidays h JOIN Employees e on h.employee_id=e.id WHERE h.id=@appId`
+        );
     })
     .then((response) => {
       if (response.recordset.length === 0) {

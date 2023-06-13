@@ -30,7 +30,8 @@ const Employee: FC<employee> = ({
       </span>
       <button
         onClick={() => {
-          axios.post(`http://localhost:3001/deleteEmployee}`, { id: id });
+          axios.post(`http://localhost:3001/deleteEmployee`, { id: id });
+          window.location.reload();
         }}
       >
         delete employee

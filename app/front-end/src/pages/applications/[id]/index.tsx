@@ -13,12 +13,16 @@ const Application: FC = () => {
       setApplication(res.data);
     });
   }, []);
-  return (
-    <>
-      <Header id={Number(id)} />
-      <ApplicationBox application={application} />
-    </>
-  );
+  if (application.length === 0) {
+    return <h1>Loading...</h1>;
+  } else {
+    return (
+      <>
+        <Header id={Number(id)} />
+        <ApplicationBox application={application} />
+      </>
+    );
+  }
 };
 
 export default Application;
