@@ -13,6 +13,8 @@ const BrandAdmin: FC = () => {
       <Link to="brandInfo">See brand info</Link>
       <br />
       <Link to="newEmployee">Add new employee</Link>
+      <br />
+      <Link to="brandHolidays">Add holidays for whole brand</Link>
     </>
   );
 };

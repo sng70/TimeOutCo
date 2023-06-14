@@ -10,19 +10,25 @@ import axios from "axios";
 function ApplicationHistory() {
   const employeeId = localStorage.getItem("id");
   const [applications, setApplications] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     axios
       .get(`http://localhost:3001/${employeeId}/applications.json`)
       .then((res) => {
         setApplications(res.data);
+        setLoaded(true);
       });
   }, []);
-  return (
-    <>
-      <ApplicationHistoryHeader />
-      <ApplicationList applications={applications} />
-    </>
-  );
+  if (!loaded) {
+    return <h1>Loading...</h1>;
+  } else {
+    return (
+      <>
+        <ApplicationHistoryHeader />
+        <ApplicationList applications={applications} />
+      </>
+    );
+  }
 }
 
 export default ApplicationHistory;

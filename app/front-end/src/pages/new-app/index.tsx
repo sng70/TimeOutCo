@@ -23,11 +23,11 @@ function NewApplication() {
     <>
       <form className="new-brand-form">
         <h1>Applicate for holidays</h1>
-        <label htmlFor="name">Reasoning:</label>
+        <label htmlFor="cause">Reasoning:</label>
         <input
           type="text"
-          name="name"
-          id="name"
+          name="cause"
+          id="cause"
           required
           onChange={(e) => {
             setCause(e.target.value);

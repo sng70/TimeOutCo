@@ -5,6 +5,7 @@ import Brand from "../../../components/brandInfo/brand";
 const BrandInfo: FC = () => {
   const employeeId = localStorage.getItem("id");
   const [brand, setBrand] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     axios
       .get(`http://localhost:3001/employeeId/${employeeId}/information`)
@@ -15,15 +16,20 @@ const BrandInfo: FC = () => {
           )
           .then((res) => {
             setBrand(res.data);
+            setLoaded(true);
           });
       });
   }, []);
-  return (
-    <>
-      <h1>Brand information:</h1>
-      <Brand brand={brand} />
-    </>
-  );
+  if (!loaded) {
+    return <h1>Loading...</h1>;
+  } else {
+    return (
+      <>
+        <h1>Brand information:</h1>
+        <Brand brand={brand} />
+      </>
+    );
+  }
 };
 
 export default BrandInfo;

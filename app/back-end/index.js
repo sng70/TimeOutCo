@@ -215,6 +215,27 @@ app.post("/application/deny", (req, res) => {
   });
 });
 
+app.post("/brand/:brandId/addBrandHolidays", (req, res) => {
+  const employees = req.body.employees;
+  const cause = req.body.cause;
+  const beginDate = req.body.beginDate;
+  const endDate = req.body.endDate;
+  dbConfig.then((connection) => {
+    for (const employee of employees) {
+      connection
+        .request()
+        .input("employeeId", sql.Int, employee)
+        .input("cause", sql.VarChar, cause)
+        .input("beginDate", sql.Date, beginDate)
+        .input("endDate", sql.Date, endDate)
+        .input("state", sql.VarChar, "accepted")
+        .query(
+          "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, @state, @beginDate, @endDate)"
+        );
+    }
+  });
+});
+
 app.get("/:employeeId/applications.json", (req, res) => {
   dbConfig
     .then((connection) => {
@@ -272,7 +293,9 @@ app.get("/employees/brand/:brandId", (req, res) => {
       return connection
         .request()
         .input("brandId", sql.Int, brandId)
-        .query(`SELECT * FROM Employees WHERE brand_id=@brandId`);
+        .query(
+          `SELECT id, name, surname, mail, brand_id, phone_number, position, role, holidays_days_ammount FROM Employees WHERE brand_id=@brandId`
+        );
     })
     .then((response) => {
       res.json(response.recordset);
@@ -300,7 +323,9 @@ app.get("/employeeId/:employeeId/information", (req, res) => {
       return connection
         .request()
         .input("employeeId", sql.Int, employeeId)
-        .query(`SELECT * FROM Employees WHERE id=@employeeId`);
+        .query(
+          `SELECT id, name, surname, mail, brand_id, phone_number, position, role, holidays_days_ammount FROM Employees WHERE id=@employeeId`
+        );
     })
     .then((response) => {
       res.json(response.recordset);
