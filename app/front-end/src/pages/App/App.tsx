@@ -18,6 +18,8 @@ import BrandEmployees from "../brand-admin/brandEmployees";
 import BrandInfo from "../brand-admin/brandInfo";
 import SaSite from "../sa";
 import BrandHolidays from "../brand-admin/addBrandHolidays";
+import EditBrands from "../saEditBrand";
+import EditUsers from "../saEditUsers";
 
 function App() {
   return (
