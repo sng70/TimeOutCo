@@ -399,6 +399,40 @@ app.post("/editUsers/:id", (req, res) => {
   });
 });
 
+app.delete("/deleteUser/:id", (req, res) => {
+  const { id } = req.params;
+
+  sql
+    .connect(dbConfig)
+    .then((pool) => {
+      pool
+        .request()
+        .input("id", sql.Int, id)
+        .query("DELETE FROM Employees WHERE id = @id")
+        .then(() => {
+          res.sendStatus(200);
+        })
+        .catch((error) => {
+          console.error(
+            "Błąd podczas usuwania użytkownika z bazy danych:",
+            error
+          );
+          res
+            .status(500)
+            .json({ error: "Błąd podczas usuwania użytkownika z bazy danych" });
+        });
+    })
+    .catch((error) => {
+      console.error(
+        "Błąd podczas nawiązywania połączenia z bazą danych:",
+        error
+      );
+      res
+        .status(500)
+        .json({ error: "Błąd podczas nawiązywania połączenia z bazą danych" });
+    });
+});
+
 app.get("/Brands", (req, res) => {
   dbConfig.then((pool) => {
     pool

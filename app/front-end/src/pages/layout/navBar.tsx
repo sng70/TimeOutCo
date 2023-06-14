@@ -6,6 +6,8 @@ const handleLogout = () => {
   localStorage.removeItem("name");
   localStorage.removeItem("role");
   localStorage.removeItem("remember");
+  localStorage.removeItem("brandId");
+  localStorage.removeItem("id");
 
   <Navigate to="/" />;
 };

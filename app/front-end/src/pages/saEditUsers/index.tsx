@@ -38,6 +38,20 @@ function EditUsers() {
     }
   };
 
+  const handleDeleteUser = (userId: number) => {
+    axios
+      .delete(`http://localhost:3001/deleteUser/${userId}`)
+      .then(() => {
+        console.log("Użytkownik został usunięty");
+        setUserData((prevData) =>
+          prevData.filter((user) => user.id !== userId)
+        );
+      })
+      .catch((error) => {
+        console.error("Błąd podczas usuwania użytkownika:", error);
+      });
+  };
+
   const handleCloseModal = () => {
     const dialog = dialogRef.current;
     if (dialog) {
@@ -88,7 +102,7 @@ function EditUsers() {
           </tr>
         </thead>
         <tbody>
-          {userData.map((user: any) => (
+          {userData.map((user: User) => (
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.brand_id}</td>
@@ -102,108 +116,88 @@ function EditUsers() {
               <td>{user.holidays_days_ammount}</td>
               <td>
                 <button onClick={() => handleUserChange(user)}>Change</button>
+                <button onClick={() => handleDeleteUser(user.id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {selectedUser && (
-        <dialog ref={dialogRef}>
-          <h2>Edit User</h2>
-          <form>
-            <div>
-              <label>ID:</label>
-              <input type="text" value={selectedUser.id} disabled />
-            </div>
-            <div>
-              <label>Brand ID:</label>
-              <input
-                type="text"
-                name="brand_id"
-                value={selectedUser.brand_id}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={selectedUser.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Surname:</label>
-              <input
-                type="text"
-                name="surname"
-                value={selectedUser.surname}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Email:</label>
-              <input
-                type="email"
-                name="mail"
-                value={selectedUser.mail}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Phone Number:</label>
-              <input
-                type="text"
-                name="phone_number"
-                value={selectedUser.phone_number}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Position:</label>
-              <input
-                type="text"
-                name="position"
-                value={selectedUser.position}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                name="employees_password"
-                value={selectedUser.employees_password}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Role:</label>
-              <input
-                type="text"
-                name="role"
-                value={selectedUser.role}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Holidays Days:</label>
-              <input
-                type="text"
-                name="holidays_days_ammount"
-                value={selectedUser.holidays_days_ammount}
-                onChange={handleInputChange}
-              />
-            </div>
-          </form>
+      <dialog ref={dialogRef}>
+        {selectedUser && (
           <div>
+            <h2>Edit User</h2>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={selectedUser.name}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="surname">Surname:</label>
+            <input
+              type="text"
+              id="surname"
+              name="surname"
+              value={selectedUser.surname}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="mail">Email:</label>
+            <input
+              type="email"
+              id="mail"
+              name="mail"
+              value={selectedUser.mail}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="phone_number">Phone Number:</label>
+            <input
+              type="text"
+              id="phone_number"
+              name="phone_number"
+              value={selectedUser.phone_number}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="position">Position:</label>
+            <input
+              type="text"
+              id="position"
+              name="position"
+              value={selectedUser.position}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="employees_password">Password:</label>
+            <input
+              type="password"
+              id="employees_password"
+              name="employees_password"
+              value={selectedUser.employees_password}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="role">Role:</label>
+            <input
+              type="text"
+              id="role"
+              name="role"
+              value={selectedUser.role}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="holidays_days_ammount">Holidays Days:</label>
+            <input
+              type="number"
+              id="holidays_days_ammount"
+              name="holidays_days_ammount"
+              value={selectedUser.holidays_days_ammount}
+              onChange={handleInputChange}
+            />
+            <button onClick={handleSaveChanges}>Save</button>
             <button onClick={handleCloseModal}>Cancel</button>
-            <button onClick={handleSaveChanges}>Save Changes</button>
           </div>
-        </dialog>
-      )}
+        )}
+      </dialog>
     </div>
   );
 }
