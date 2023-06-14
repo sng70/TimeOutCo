@@ -56,7 +56,7 @@ function LogIn() {
           <input
             id="username"
             name="username"
-            type="text"
+            type="email"
             required
             onChange={(e) => {
               setMail(e.target.value);

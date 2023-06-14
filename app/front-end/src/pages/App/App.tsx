@@ -23,6 +23,8 @@ import EmployeeAddedSuccessfully from "../brand-admin/add-new-employees/results/
 import EmployeeAddedUnsuccessfully from "../brand-admin/add-new-employees/results/unsuccessful";
 import ApplicationAddedSuccessfully from "../new-app/results/successful";
 import ApplicationAddedUnuccessfully from "../new-app/results/unsuccessful";
+import EditUsers from "../saEditUsers";
+import EditBrands from "../saEditBrand";
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
         <Route path="/wrongPassword" element={<WrongPassword />} />
 
         <Route element={<NavLayout />}>
+          <Route path="/home" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/added" element={<SuccessfullyAdded />} />
@@ -76,6 +79,8 @@ function App() {
           />
           <Route path="/sa" element={<SaSite />} />
           <Route path="/sa/newBrand" element={<SaAddingNewBrandPanel />} />
+          <Route path="/sa/editUsers" element={<EditUsers />} />
+          <Route path="/sa/editBrands" element={<EditBrands />} />
         </Route>
       </Routes>{" "}
     </>

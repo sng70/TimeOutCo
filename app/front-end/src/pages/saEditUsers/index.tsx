@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 
 function EditUsers() {
   const [userData, setUserData] = useState<any[]>([]);
-  const [selectedUser, setSelectedUser] = useState<any | null>(null); // Przechowuje dane wybranego użytkownika
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
 
   type User = {
     id: number;
@@ -47,7 +47,6 @@ function EditUsers() {
   };
 
   const handleSaveChanges = () => {
-    // Wywołaj zapytanie do backendu w celu zapisania zaktualizowanych danych użytkownika
     axios
       .post(`http://localhost:3001/editUsers/${selectedUser.id}`, selectedUser)
       .then(() => {

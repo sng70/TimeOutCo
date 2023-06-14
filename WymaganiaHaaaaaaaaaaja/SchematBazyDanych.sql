@@ -154,6 +154,7 @@ INSERT INTO National_holidays VALUES
          ('Święta Bożego Narodzenia', '2023-12-25', '2023-12-26');
 
 SELECT * from Brands
+USE ERP
 SELECT * from Employees
 SELECT * from Holidays
 SELECT * from National_holidays
