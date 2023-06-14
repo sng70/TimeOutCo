@@ -11,6 +11,7 @@ function NewApplication() {
       beginDate: beginDate,
       endDate: endDate,
     });
+    window.location.reload();
   };
 
   const employeeId = localStorage.getItem("id");
@@ -20,11 +21,7 @@ function NewApplication() {
 
   return (
     <>
-      <form
-        className="new-brand-form"
-        method="POST"
-        action="http://localhost:3001/addApplication"
-      >
+      <form className="new-brand-form">
         <h1>Applicate for holidays</h1>
         <label htmlFor="name">Reasoning:</label>
         <input
@@ -59,7 +56,7 @@ function NewApplication() {
         />
         <br />
         <br />
-        <button type="submit" onSubmit={handleAddUp}>
+        <button type="button" onClick={handleAddUp}>
           Applicate
         </button>
       </form>

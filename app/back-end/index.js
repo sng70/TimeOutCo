@@ -112,19 +112,9 @@ app.post("/deleteEmployee", (req, res) => {
         .request()
         .input("id", sql.Int, employeeId)
         .query(`DELETE FROM Employees WHERE id=@id`),
-      (err, result) => {
+      (err) => {
         if (err) {
           res.send({ err: err });
-        } else {
-          if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
-            res.redirect(
-              "http://localhost:3000/brandAdmin/brandEmployees/successful"
-            );
-          } else {
-            res.redirect(
-              "http://localhost:3000//brandAdmin/brandEmployees/unsuccessful"
-            );
-          }
         }
       }
     );
@@ -156,19 +146,9 @@ app.post("/addEmployee", (req, res) => {
       .input("password", sql.VarChar, password)
       .query(
         `INSERT INTO Employees (brand_id, name, surname, mail, phone_number, position, employees_password, role, holidays_days_ammount) VALUES (@brandId, @name, @surname, @mail, @phoneNumber, @position, @password, @admin, @holidaysAmmount)`,
-        (err, result) => {
+        (err) => {
           if (err) {
             res.send({ err: err });
-          } else {
-            if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
-              res.redirect(
-                "http://localhost:3000/brandAdmin/addEmployee/successful"
-              );
-            } else {
-              res.redirect(
-                "http://localhost:3000/brandAdmin/addEmployee/unsuccessful"
-              );
-            }
           }
         }
       );
@@ -187,17 +167,48 @@ app.post("/addApplication", (req, res) => {
       .input("cause", sql.VarChar, cause)
       .input("beginDate", sql.Date, beginDate)
       .input("endDate", sql.Date, endDate)
+      .input("state", sql.VarChar, "pending")
       .query(
-        "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, pending, @beginDate, @endDate",
-        (err, result) => {
+        "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, @state, @beginDate, @endDate)",
+        (err) => {
           if (err) {
             res.send({ err: err });
-          } else {
-            if (result && result.rowsAffected && result.rowsAffected[0] > 0) {
-              res.redirect("http://localhost:3000/application/successful");
-            } else {
-              res.redirect("http://localhost:3000/application/unsuccessful");
-            }
+          }
+        }
+      );
+  });
+});
+
+app.post("/application/accept", (req, res) => {
+  const appId = req.body.id;
+  dbConfig.then((connection) => {
+    connection
+      .request()
+      .input("appId", sql.Int, appId)
+      .input("state", sql.VarChar, "accepted")
+      .query(
+        "UPDATE Holidays SET application_state=@state where id=@appId",
+        (err) => {
+          if (err) {
+            res.send({ err: err });
+          }
+        }
+      );
+  });
+});
+
+app.post("/application/deny", (req, res) => {
+  const appId = req.body.id;
+  dbConfig.then((connection) => {
+    connection
+      .request()
+      .input("appId", sql.Int, appId)
+      .input("state", sql.VarChar, "denied")
+      .query(
+        "UPDATE Holidays SET application_state=@state where id=@appId",
+        (err) => {
+          if (err) {
+            res.send({ err: err });
           }
         }
       );
@@ -244,8 +255,9 @@ app.get("/applications/brand/:brandId", (req, res) => {
       const { brandId } = req.params;
       return connection
         .request()
+        .input("brandId", sql.Int, brandId)
         .query(
-          `SELECT * FROM Holidays h JOIN Employees e ON h.employee_id=e.id WHERE e.brand_id=${brandId}`
+          `SELECT h.* FROM Holidays h JOIN Employees e ON h.employee_id=e.id WHERE e.brand_id=@brandId`
         );
     })
     .then((response) => {
@@ -259,7 +271,8 @@ app.get("/employees/brand/:brandId", (req, res) => {
       const { brandId } = req.params;
       return connection
         .request()
-        .query(`SELECT * FROM Employees WHERE brand_id=${brandId}`);
+        .input("brandId", sql.Int, brandId)
+        .query(`SELECT * FROM Employees WHERE brand_id=@brandId`);
     })
     .then((response) => {
       res.json(response.recordset);
@@ -272,7 +285,8 @@ app.get("/brand/:brandId/information", (req, res) => {
       const { brandId } = req.params;
       return connection
         .request()
-        .query(`SELECT * FROM Brands WHERE id=${brandId}`);
+        .input("brandId", sql.Int, brandId)
+        .query(`SELECT * FROM Brands WHERE id=@brandId`);
     })
     .then((response) => {
       res.json(response.recordset);
@@ -285,7 +299,8 @@ app.get("/employeeId/:employeeId/information", (req, res) => {
       const { employeeId } = req.params;
       return connection
         .request()
-        .query(`SELECT * FROM Employees WHERE id=${employeeId}`);
+        .input("employeeId", sql.Int, employeeId)
+        .query(`SELECT * FROM Employees WHERE id=@employeeId`);
     })
     .then((response) => {
       res.json(response.recordset);

@@ -43,6 +43,7 @@ CREATE TABLE Employees(
  CONSTRAINT Employees_brand_FK FOREIGN KEY(brand_id) REFERENCES Brands(id),
  CONSTRAINT Employees_hda_CHK CHECK(holidays_days_ammount >= 0)
 );
+
 INSERT into Employees (brand_id, name, surname, mail, phone_number, position, employees_password, is_admin, holidays_days_ammount) VALUES
 (0, 'admin', 'admin', 'admin@admin.com', '123456789', 'admin admin', 'admin123@!', 1, 19)
 

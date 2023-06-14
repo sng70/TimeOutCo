@@ -29,7 +29,8 @@ const ApplicationBox: FC<Props> = ({ application }) => {
     return (
       <span>
         {application[0].cause} {application[0].application_state}{" "}
-        {application[0].begin_date} {application[0].end_date}
+        {application[0].begin_date.slice(0, 10)}{" "}
+        {application[0].end_date.slice(0, 10)}
       </span>
     );
   } else {
