@@ -332,6 +332,122 @@ app.get("/employeeId/:employeeId/information", (req, res) => {
     });
 });
 
+app.get("/Users", (req, res) => {
+  dbConfig.then((pool) => {
+    pool
+      .request()
+      .query("SELECT * FROM Employees")
+      .then((result) => {
+        const data = result.recordset;
+        res.json(data);
+      })
+      .catch((error) => {
+        console.error("Błąd podczas zapytania do bazy danych:", error);
+        res
+          .status(500)
+          .json({ error: "Błąd podczas zapytania do bazy danych" });
+      });
+  });
+});
+
+app.post("/editUsers/:id", (req, res) => {
+  const { id } = req.params;
+  const updatedUser = req.body;
+
+  dbConfig.then((pool) => {
+    const {
+      brand_id,
+      name,
+      surname,
+      mail,
+      phone_number,
+      position,
+      employees_password,
+      role,
+      holidays_days_ammount,
+    } = updatedUser;
+
+    pool
+      .request()
+      .input("brand_id", sql.Int, brand_id)
+      .input("name", sql.VarChar(20), name)
+      .input("surname", sql.VarChar(20), surname)
+      .input("mail", sql.VarChar(50), mail)
+      .input("phone_number", sql.Char(9), phone_number)
+      .input("position", sql.VarChar(40), position)
+      .input("employees_password", sql.VarChar(50), employees_password)
+      .input("role", sql.VarChar(10), role)
+      .input("holidays_days_ammount", sql.Int, holidays_days_ammount)
+      .input("id", sql.Int, id)
+      .query(
+        `UPDATE Employees SET brand_id = @brand_id, name = @name, surname = @surname,
+        mail = @mail, phone_number = @phone_number, position = @position, employees_password = @employees_password,
+        role = @role, holidays_days_ammount = @holidays_days_ammount WHERE id = @id`
+      )
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.error(
+          "Błąd podczas aktualizacji danych w bazie danych:",
+          error
+        );
+        res
+          .status(500)
+          .json({ error: "Błąd podczas aktualizacji danych w bazie danych" });
+      });
+  });
+});
+
+app.get("/Brands", (req, res) => {
+  dbConfig.then((pool) => {
+    pool
+      .request()
+      .query("SELECT * FROM Brands")
+      .then((result) => {
+        const data = result.recordset;
+        res.json(data);
+      })
+      .catch((error) => {
+        console.error("Błąd podczas zapytania do bazy danych:", error);
+        res
+          .status(500)
+          .json({ error: "Błąd podczas zapytania do bazy danych" });
+      });
+  });
+});
+
+app.post("/editBrands/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, subscription_type, hq_address, brands_password, brand_mail } =
+    req.body;
+
+  dbConfig
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, id)
+        .input("name", sql.VarChar(50), name)
+        .input("subscription_type", sql.VarChar(10), subscription_type)
+        .input("hq_address", sql.VarChar(50), hq_address)
+        .input("brands_password", sql.VarChar(50), brands_password)
+        .input("brand_mail", sql.VarChar(50), brand_mail)
+        .query(
+          "UPDATE Brands SET name = @name, subscription_type = @subscription_type, hq_address = @hq_address, brands_password = @brands_password, brand_mail = @brand_mail WHERE id = @id"
+        );
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.error("Błąd podczas zapisywania zmienionych danych:", error);
+      res.status(500).json({
+        error: "Błąd podczas zapisywania zmienionych danych",
+        errorMessage: error.message,
+      });
+    });
+});
+
 app.listen(port, () => {
   console.log(`Server has started on port ${port}`);
   console.log("http://localhost:3001");

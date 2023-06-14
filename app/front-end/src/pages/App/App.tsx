@@ -29,6 +29,7 @@ function App() {
 
         <Route element={<NavLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/added" element={<SuccessfullyAdded />} />
           <Route path="/app-history" element={<ApplicationHistory />} />
@@ -48,6 +49,8 @@ function App() {
           <Route path="/brandAdmin/brandHolidays" element={<BrandHolidays />} />
           <Route path="/sa" element={<SaSite />} />
           <Route path="/sa/newBrand" element={<SaAddingNewBrandPanel />} />
+          <Route path="/sa/editUsers" element={<EditUsers />} />
+          <Route path="/sa/editBrands" element={<EditBrands />} />
         </Route>
       </Routes>{" "}
     </>
