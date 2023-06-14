@@ -394,7 +394,7 @@ app.get("/Brands", (req, res) => {
 
 app.post("/editBrands/:id", (req, res) => {
   const { id } = req.params;
-  const { name, subscriptionType, hqAddress, brandsPassword, brandMail } =
+  const { name, subscription_type, hq_address, brands_password, brand_mail } =
     req.body;
 
   dbConfig
@@ -403,10 +403,10 @@ app.post("/editBrands/:id", (req, res) => {
         .request()
         .input("id", sql.Int, id)
         .input("name", sql.VarChar(50), name)
-        .input("subscription_type", sql.VarChar(10), subscriptionType)
-        .input("hq_address", sql.VarChar(50), hqAddress)
-        .input("brands_password", sql.VarChar(50), brandsPassword)
-        .input("brand_mail", sql.VarChar(50), brandMail)
+        .input("subscription_type", sql.VarChar(10), subscription_type)
+        .input("hq_address", sql.VarChar(50), hq_address)
+        .input("brands_password", sql.VarChar(50), brands_password)
+        .input("brand_mail", sql.VarChar(50), brand_mail)
         .query(
           "UPDATE Brands SET name = @name, subscription_type = @subscription_type, hq_address = @hq_address, brands_password = @brands_password, brand_mail = @brand_mail WHERE id = @id"
         );
@@ -416,9 +416,10 @@ app.post("/editBrands/:id", (req, res) => {
     })
     .catch((error) => {
       console.error("Błąd podczas zapisywania zmienionych danych:", error);
-      res
-        .status(500)
-        .json({ error: "Błąd podczas zapisywania zmienionych danych" });
+      res.status(500).json({
+        error: "Błąd podczas zapisywania zmienionych danych",
+        errorMessage: error.message,
+      });
     });
 });
 
