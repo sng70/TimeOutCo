@@ -4,8 +4,8 @@ const sql = require("mssql");
 const port = 3001;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 const app = express();
-//app.use(express.json);
 app.use(cors());
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
@@ -17,14 +17,14 @@ const roleSecrets = {
 };
 
 const dbConfig = sql.connect({
-  user: "sa",
-  password: "yourStrong()Password",
-  database: "ERP",
-  server: "143.42.56.91",
-  port: 1433,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  server: process.env.DB_SERVER,
+  port: parseInt(process.env.DB_PORT),
   options: {
-    encrypt: true, // for azure
-    trustServerCertificate: true, // change to true for local dev / self-signed certs
+    encrypt: true,
+    trustServerCertificate: true,
   },
 });
 
