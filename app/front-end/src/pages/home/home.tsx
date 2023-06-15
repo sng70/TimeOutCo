@@ -19,6 +19,8 @@ function Home() {
       const nameFromStorage = localStorage.getItem("name");
       if (nameFromStorage) {
         setName(nameFromStorage);
+      } else {
+        setName("un-authorized user");
       }
     }
 

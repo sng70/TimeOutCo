@@ -65,12 +65,12 @@ const App: React.FC = () => {
     <>
       <Routes>
         {/**Sciezki dla wszystkich osob */}
-        <Route path="/" element={<LogIn />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/wrongPassword" element={<WrongPassword />} />
 
         {/*Sciezki dla osob z 54a9e03ff9a76476905f45e37e10a4064641f2e073748e4f462c4e6f9ea8fcf0 lub 5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9 lub tym e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419 w localstorage'u   */}
         <Route element={<NavLayout />}>
+          <Route path="/" element={<LogIn />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/wrongPassword" element={<WrongPassword />} />
           <Route path="/home" element={<Home />} />
           <Route
             path="/contact"
