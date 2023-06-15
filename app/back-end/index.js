@@ -31,45 +31,49 @@ const dbConfig = sql.connect({
 app.post("/login", (req, res) => {
   const mail = req.body.username;
   const password = req.body.password;
-  dbConfig.then((pool) =>
-    pool
-      .request()
-      .input("mail", sql.VarChar, mail)
-      .input("password", sql.VarChar, password)
-      .query(
-        `SELECT name, role, id, brand_id FROM Employees WHERE mail = @mail AND employees_password = @password`,
-        (err, result) => {
-          if (err) {
-            res.send({ err: err });
-          }
-
-          if (result.recordset[0] && !err) {
-            const name = result.recordset[0].name;
-            const role = result.recordset[0].role;
-            const id = result.recordset[0].id;
-            const brandId = result.recordset[0].brand_id;
-
-            // Sprawdź, czy rola istnieje w obiekcie roles
-            if (roleSecrets.hasOwnProperty(role)) {
-              const roleCode = roleSecrets[role];
-
-              res.redirect(
-                "http://localhost:3000/home?name=" +
-                  name +
-                  "&role=" +
-                  roleCode +
-                  "&id=" +
-                  id +
-                  "&brandId=" +
-                  brandId
-              );
+  dbConfig
+    .then((pool) =>
+      pool
+        .request()
+        .input("mail", sql.VarChar, mail)
+        .input("password", sql.VarChar, password)
+        .query(
+          `SELECT name, role, id, brand_id FROM Employees WHERE mail = @mail AND employees_password = @password`,
+          (err, result) => {
+            if (err) {
+              res.send({ err: err });
             }
-          } else {
-            res.redirect("http://localhost:3000/wrongPassword");
+
+            if (result.recordset[0] && !err) {
+              const name = result.recordset[0].name;
+              const role = result.recordset[0].role;
+              const id = result.recordset[0].id;
+              const brandId = result.recordset[0].brand_id;
+
+              // Sprawdź, czy rola istnieje w obiekcie roles
+              if (roleSecrets.hasOwnProperty(role)) {
+                const roleCode = roleSecrets[role];
+
+                res.redirect(
+                  "http://localhost:3000/home?name=" +
+                    name +
+                    "&role=" +
+                    roleCode +
+                    "&id=" +
+                    id +
+                    "&brandId=" +
+                    brandId
+                );
+              }
+            } else {
+              res.redirect("http://localhost:3000/wrongPassword");
+            }
           }
-        }
-      )
-  );
+        )
+    )
+    .catch((error) => {
+      res.send({ error: error });
+    });
 });
 
 app.post("/register-brand", (req, res) => {
@@ -103,10 +107,8 @@ app.post("/register-brand", (req, res) => {
           }
         )
     )
-    .catch((err) => {
-      if (err) {
-        res.send({ err: err });
-      }
+    .catch((error) => {
+      res.send({ error: error });
     });
 });
 
