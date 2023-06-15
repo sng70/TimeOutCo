@@ -45,7 +45,14 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   const isAuthenticatedAdmin =
     getRoleFromLocalStorage() ===
       "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9" ||
-    "e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419";
+    getRoleFromLocalStorage() ===
+      "e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419";
+
+  const isAuthenticated = !!getRoleFromLocalStorage();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return isAuthenticatedAdmin ? children : <Navigate to="/" />;
 };
