@@ -8,6 +8,8 @@ interface applicationProps {
   application_state: string;
   begin_date: string;
   end_date: string;
+  name: string;
+  surname: string;
 }
 
 const ApplicationListItem: FC<applicationProps> = ({
@@ -16,6 +18,8 @@ const ApplicationListItem: FC<applicationProps> = ({
   application_state,
   begin_date,
   end_date,
+  name,
+  surname,
 }) => {
   const handleAcceptButtonClick = () => {
     axios.post(`http://localhost:3001/application/accept`, { id: id });
@@ -33,6 +37,7 @@ const ApplicationListItem: FC<applicationProps> = ({
         <Link to={`http://localhost:3000/applications/${id}`}>
           <div className="applicationWrapper">
             <span>
+              {name} {surname}
               {cause} {application_state} {begin_date.slice(0, 10)}{" "}
               {end_date.slice(0, 10)}
             </span>
@@ -48,8 +53,8 @@ const ApplicationListItem: FC<applicationProps> = ({
         <Link to={`http://localhost:3000/applications/${id}`}>
           <div className="applicationWrapper">
             <span>
-              {cause} {application_state} {begin_date.slice(0, 10)}{" "}
-              {end_date.slice(0, 10)}
+              {name} {surname} {cause} {application_state}{" "}
+              {begin_date.slice(0, 10)} {end_date.slice(0, 10)}
             </span>
           </div>
         </Link>

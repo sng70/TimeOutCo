@@ -16,6 +16,8 @@ const ApplicationList: FC<applicationListProps> = ({ applications }) => {
             application_state={application.application_state}
             begin_date={application.begin_date}
             end_date={application.end_date}
+            name={application.name}
+            surname={application.surname}
           />
         );
       })}

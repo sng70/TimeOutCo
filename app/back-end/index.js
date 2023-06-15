@@ -278,7 +278,7 @@ app.get("/applications/brand/:brandId", (req, res) => {
         .request()
         .input("brandId", sql.Int, brandId)
         .query(
-          `SELECT h.* FROM Holidays h JOIN Employees e ON h.employee_id=e.id WHERE e.brand_id=@brandId`
+          `SELECT h.*, e.name, e.surname FROM Holidays h JOIN Employees e ON h.employee_id=e.id WHERE e.brand_id=@brandId`
         );
     })
     .then((response) => {
