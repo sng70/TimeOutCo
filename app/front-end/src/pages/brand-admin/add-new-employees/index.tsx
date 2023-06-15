@@ -4,17 +4,23 @@ import "./index.css";
 
 const AddNewEmployee = () => {
   const handleAddUp = () => {
-    axios.post("http://localhost:3001/addEmployee", {
-      name: name,
-      brandId: brandId,
-      surname: surname,
-      admin: admin,
-      mail: mail,
-      phoneNumber: phoneNumber,
-      position: position,
-      password: password,
-      holidaysAmmount: holidaysAmmount,
-    });
+    axios
+      .post("http://localhost:3001/addEmployee", {
+        name: name,
+        brandId: brandId,
+        surname: surname,
+        admin: admin,
+        mail: mail,
+        phoneNumber: phoneNumber,
+        position: position,
+        password: password,
+        holidaysAmmount: holidaysAmmount,
+      })
+      .then((res) => {
+        if (res.data.err) {
+          window.alert(res.data.err.originalError.info.message);
+        }
+      });
     window.location.reload();
   };
 
