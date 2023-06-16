@@ -39,13 +39,14 @@ function NavLayout() {
             </NavLink>
           </li>
           {role ===
-            "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9" && (
-            <li className="nav-item">
-              <NavLink to="/brandAdmin" className="nav-link">
-                Admin Site
-              </NavLink>
-            </li>
-          )}
+            "5ba48771c61dfb0c8e6c7df6db9e7d097b93b1940ab5aeeb4d8d5a630e2557f9" ||
+            ("e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419" && (
+              <li className="nav-item">
+                <NavLink to="/brandAdmin" className="nav-link">
+                  Admin Site
+                </NavLink>
+              </li>
+            ))}
           {role ===
             "e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419" && (
             <li className="nav-item">
@@ -62,7 +63,6 @@ function NavLayout() {
         </ul>
       </nav>
       <Outlet />
-      {/* TODO SPYTAJ MICHALA, CZEMU DOPIERO LADUJA SIE TE SITE ADMINY I ADMINE SITE, PO ODSWIEZENIU STRONY */}
     </>
   );
 }

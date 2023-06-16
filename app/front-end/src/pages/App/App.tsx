@@ -33,7 +33,6 @@ const SaRoute: React.FC<SaRouteProps> = ({ children }) => {
   const isAuthenticatedSa =
     getRoleFromLocalStorage() ===
     "e086da84c7904d285d65c6479a94274e5e0f6e6e4f8a6a2c05b234736d57a419";
-
   return isAuthenticatedSa ? children : <Navigate to="/" />;
 };
 
@@ -63,6 +62,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const isAuthenticated = !!getRoleFromLocalStorage();
+  // !! zmiana do boola
 
   return isAuthenticated ? children : <Navigate to="/" />;
 };
