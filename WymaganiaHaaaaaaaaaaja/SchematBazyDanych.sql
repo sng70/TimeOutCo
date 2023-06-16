@@ -138,8 +138,6 @@ INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_dat
     (9, 'Vacation', 'accepted', '2023-07-10', '2023-07-24'),
     (10, 'Religious Holiday', 'pending', '2023-08-16', '2023-08-18');
 
-
-
 INSERT INTO National_holidays VALUES
          ('Nowy Rok', '2023-01-01', '2023-01-01'),
          ('Święto Trzech Króli', '2023-06-01', '2023-06-01'),
@@ -172,14 +170,17 @@ BEGIN
     IF (SELECT subscription_type FROM brands WHERE id=@brand_id)='Basic' AND @employees_no > @basic_subscription_limit
     BEGIN
         THROW 51000, 'Met the limit of employees.', 1;
+        ROLLBACK TRANSACTION
     END
     IF (SELECT subscription_type FROM brands WHERE id=@brand_id)='Premium' AND @employees_no > @premium_subscription_limit
     BEGIN
         THROW 51000, 'Met the limit of employees.', 1;
+        ROLLBACK TRANSACTION
     END 
     IF (SELECT subscription_type FROM brands WHERE id=@brand_id)='Platinum' AND @employees_no > @platinum_subscription_limit
     BEGIN
         THROW 51000, 'Met the limit of employees.', 1;
+        ROLLBACK TRANSACTION
     END 
 END
 
@@ -192,6 +193,45 @@ BEGIN
     IF @old_state != 'pending' OR (@new_state != 'accepted' OR @new_state != 'denied')
     BEGIN
         THROW 52000, 'Invalid update of application state.', 1;
+        ROLLBACK TRANSACTION
     END
     COMMIT TRANSACTION
+END
+
+GO
+
+CREATE OR ALTER TRIGGER HolidaysUpdateHolidaysDaysOnInsert ON Holidays AFTER INSERT AS
+BEGIN
+    DECLARE @begin_date DATE = (SELECT begin_date FROM inserted);
+    DECLARE @end_date DATE = (SELECT end_date FROM inserted);
+    DECLARE @employee_id INT = (SELECT employee_id FROM inserted);
+    DECLARE @state VARCHAR(10) = (SELECT application_state FROM inserted);
+    DECLARE @days_taken INT = DATEDIFF(DAY, @begin_date, @end_date) + 1;
+    DECLARE @days_left INT = (SELECT holidays_days_ammount FROM Employees WHERE id=@employee_id);
+    IF @days_taken > @days_left AND @state = 'pending'
+    BEGIN
+        THROW 53000, 'You dont have enough days', 1;
+        ROLLBACK TRANSACTION;
+    END
+    ELSE
+    BEGIN
+        UPDATE Employees SET holidays_days_ammount = holidays_days_ammount - @days_taken WHERE id=@employee_id;
+        COMMIT TRANSACTION;
+    END
+END
+
+GO
+
+CREATE OR ALTER TRIGGER HolidaysUpdateHolidaysDaysOnDenial ON Holidays AFTER UPDATE AS
+BEGIN
+    DECLARE @new_state VARCHAR(10) = (SELECT application_state FROM inserted);
+    DECLARE @begin_date DATE = (SELECT begin_date FROM inserted);
+    DECLARE @end_date DATE = (SELECT end_date FROM inserted);
+    DECLARE @employee_id INT = (SELECT employee_id FROM inserted);
+    DECLARE @days_taken INT = DATEDIFF(DAY, @begin_date, @end_date) + 1;
+    IF @new_state = 'denied'
+    BEGIN
+        UPDATE Employees SET holidays_days_ammount = holidays_days_ammount + @days_taken WHERE id=@employee_id;
+    END
+    COMMIT TRANSACTION;
 END

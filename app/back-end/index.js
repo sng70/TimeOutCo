@@ -114,19 +114,25 @@ app.post("/register-brand", (req, res) => {
 
 app.post("/deleteEmployee", (req, res) => {
   const employeeId = req.body.id;
-  dbConfig.then((connection) => {
-    return (
-      connection
-        .request()
-        .input("id", sql.Int, employeeId)
-        .query(`DELETE FROM Employees WHERE id=@id`),
-      (err) => {
-        if (err) {
-          res.send({ err: err });
+  dbConfig
+    .then((connection) => {
+      return (
+        connection
+          .request()
+          .input("id", sql.Int, employeeId)
+          .query(`DELETE FROM Employees WHERE id=@id`),
+        (err) => {
+          if (err) {
+            res.send({ err: err });
+          }
         }
+      );
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
       }
-    );
-  });
+    });
 });
 
 app.post("/addEmployee", (req, res) => {
@@ -140,27 +146,33 @@ app.post("/addEmployee", (req, res) => {
   const holidaysAmmount = Number(req.body.holidaysAmmount);
   const brandId = req.body.brandId;
   console.log(req.body);
-  dbConfig.then((connection) => {
-    return connection
-      .request()
-      .input("name", sql.VarChar, name)
-      .input("surname", sql.VarChar, surname)
-      .input("mail", sql.VarChar, mail)
-      .input("phoneNumber", sql.VarChar, phoneNumber)
-      .input("position", sql.VarChar, position)
-      .input("admin", sql.VarChar, admin)
-      .input("holidaysAmmount", sql.Int, holidaysAmmount)
-      .input("brandId", sql.Int, brandId)
-      .input("password", sql.VarChar, password)
-      .query(
-        `INSERT INTO Employees (brand_id, name, surname, mail, phone_number, position, employees_password, role, holidays_days_ammount) VALUES (@brandId, @name, @surname, @mail, @phoneNumber, @position, @password, @admin, @holidaysAmmount)`,
-        (err) => {
-          if (err) {
-            res.send({ err: err });
+  dbConfig
+    .then((connection) => {
+      return connection
+        .request()
+        .input("name", sql.VarChar, name)
+        .input("surname", sql.VarChar, surname)
+        .input("mail", sql.VarChar, mail)
+        .input("phoneNumber", sql.VarChar, phoneNumber)
+        .input("position", sql.VarChar, position)
+        .input("admin", sql.VarChar, admin)
+        .input("holidaysAmmount", sql.Int, holidaysAmmount)
+        .input("brandId", sql.Int, brandId)
+        .input("password", sql.VarChar, password)
+        .query(
+          `INSERT INTO Employees (brand_id, name, surname, mail, phone_number, position, employees_password, role, holidays_days_ammount) VALUES (@brandId, @name, @surname, @mail, @phoneNumber, @position, @password, @admin, @holidaysAmmount)`,
+          (err) => {
+            if (err) {
+              res.send({ err: err });
+            }
           }
-        }
-      );
-  });
+        );
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
+    });
 });
 
 app.post("/addApplication", (req, res) => {
@@ -168,59 +180,77 @@ app.post("/addApplication", (req, res) => {
   const cause = req.body.cause;
   const beginDate = req.body.beginDate;
   const endDate = req.body.endDate;
-  dbConfig.then((connection) => {
-    connection
-      .request()
-      .input("employeeId", sql.Int, employeeId)
-      .input("cause", sql.VarChar, cause)
-      .input("beginDate", sql.Date, beginDate)
-      .input("endDate", sql.Date, endDate)
-      .input("state", sql.VarChar, "pending")
-      .query(
-        "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, @state, @beginDate, @endDate)",
-        (err) => {
-          if (err) {
-            res.send({ err: err });
+  dbConfig
+    .then((connection) => {
+      connection
+        .request()
+        .input("employeeId", sql.Int, employeeId)
+        .input("cause", sql.VarChar, cause)
+        .input("beginDate", sql.Date, beginDate)
+        .input("endDate", sql.Date, endDate)
+        .input("state", sql.VarChar, "pending")
+        .query(
+          "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, @state, @beginDate, @endDate)",
+          (err) => {
+            if (err) {
+              res.send({ err: err });
+            }
           }
-        }
-      );
-  });
+        );
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
+    });
 });
 
 app.post("/application/accept", (req, res) => {
   const appId = req.body.id;
-  dbConfig.then((connection) => {
-    connection
-      .request()
-      .input("appId", sql.Int, appId)
-      .input("state", sql.VarChar, "accepted")
-      .query(
-        "UPDATE Holidays SET application_state=@state where id=@appId",
-        (err) => {
-          if (err) {
-            res.send({ err: err });
+  dbConfig
+    .then((connection) => {
+      connection
+        .request()
+        .input("appId", sql.Int, appId)
+        .input("state", sql.VarChar, "accepted")
+        .query(
+          "UPDATE Holidays SET application_state=@state where id=@appId",
+          (err) => {
+            if (err) {
+              res.send({ err: err });
+            }
           }
-        }
-      );
-  });
+        );
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
+    });
 });
 
 app.post("/application/deny", (req, res) => {
   const appId = req.body.id;
-  dbConfig.then((connection) => {
-    connection
-      .request()
-      .input("appId", sql.Int, appId)
-      .input("state", sql.VarChar, "denied")
-      .query(
-        "UPDATE Holidays SET application_state=@state where id=@appId",
-        (err) => {
-          if (err) {
-            res.send({ err: err });
+  dbConfig
+    .then((connection) => {
+      connection
+        .request()
+        .input("appId", sql.Int, appId)
+        .input("state", sql.VarChar, "denied")
+        .query(
+          "UPDATE Holidays SET application_state=@state where id=@appId",
+          (err) => {
+            if (err) {
+              res.send({ err: err });
+            }
           }
-        }
-      );
-  });
+        );
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
+    });
 });
 
 app.post("/brand/:brandId/addBrandHolidays", (req, res) => {
@@ -228,20 +258,26 @@ app.post("/brand/:brandId/addBrandHolidays", (req, res) => {
   const cause = req.body.cause;
   const beginDate = req.body.beginDate;
   const endDate = req.body.endDate;
-  dbConfig.then((connection) => {
-    for (const employee of employees) {
-      connection
-        .request()
-        .input("employeeId", sql.Int, employee)
-        .input("cause", sql.VarChar, cause)
-        .input("beginDate", sql.Date, beginDate)
-        .input("endDate", sql.Date, endDate)
-        .input("state", sql.VarChar, "accepted")
-        .query(
-          "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, @state, @beginDate, @endDate)"
-        );
-    }
-  });
+  dbConfig
+    .then((connection) => {
+      for (const employee of employees) {
+        connection
+          .request()
+          .input("employeeId", sql.Int, employee)
+          .input("cause", sql.VarChar, cause)
+          .input("beginDate", sql.Date, beginDate)
+          .input("endDate", sql.Date, endDate)
+          .input("state", sql.VarChar, "accepted")
+          .query(
+            "INSERT INTO Holidays (employee_id, cause, application_state, begin_date, end_date) VALUES (@employeeId, @cause, @state, @beginDate, @endDate)"
+          );
+      }
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
+    });
 });
 
 app.get("/:employeeId/applications.json", (req, res) => {
@@ -255,6 +291,11 @@ app.get("/:employeeId/applications.json", (req, res) => {
     })
     .then((response) => {
       res.json(response.recordset);
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
     });
 });
 
@@ -275,6 +316,11 @@ app.get("/applications/:appId", (req, res) => {
       } else {
         res.json(response.recordset);
       }
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
     });
 });
 
@@ -291,6 +337,11 @@ app.get("/applications/brand/:brandId", (req, res) => {
     })
     .then((response) => {
       res.json(response.recordset);
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
     });
 });
 
@@ -307,6 +358,11 @@ app.get("/employees/brand/:brandId", (req, res) => {
     })
     .then((response) => {
       res.json(response.recordset);
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
     });
 });
 
@@ -321,6 +377,11 @@ app.get("/brand/:brandId/information", (req, res) => {
     })
     .then((response) => {
       res.json(response.recordset);
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
     });
 });
 
@@ -337,6 +398,11 @@ app.get("/employeeId/:employeeId/information", (req, res) => {
     })
     .then((response) => {
       res.json(response.recordset);
+    })
+    .catch((err) => {
+      if (err) {
+        res.send({ err: err });
+      }
     });
 });
 

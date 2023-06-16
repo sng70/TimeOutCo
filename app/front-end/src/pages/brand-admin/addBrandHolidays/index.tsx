@@ -5,12 +5,18 @@ import axios from "axios";
 
 const BrandHolidays: FC = () => {
   const handleAddUp = () => {
-    axios.post("http://localhost:3001/brand/:brandId/addBrandHolidays", {
-      employees: employees,
-      cause: cause,
-      beginDate: beginDate,
-      endDate: endDate,
-    });
+    axios
+      .post("http://localhost:3001/brand/:brandId/addBrandHolidays", {
+        employees: employees,
+        cause: cause,
+        beginDate: beginDate,
+        endDate: endDate,
+      })
+      .then((res) => {
+        if (res.data.err) {
+          window.alert(res.data.err.originalError.info.message);
+        }
+      });
     window.location.reload();
   };
 
